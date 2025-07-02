@@ -1,0 +1,16 @@
+{
+  "name": "The Atomic",
+  "version": "0.0.1",
+  "description": "A web game inspired by 'A Dark Room','Candybox' and 'The Gold Factory'",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc -w"
+  },
+  "keywords": [],
+  "author": "Naylek_",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
+}
