@@ -1,0 +1,98 @@
+html, body {
+    margin: 0;
+    height: 100%;
+}
+
+ul li{
+    display: inline;
+}
+
+ul{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    padding: 5px;
+    justify-content: center;
+}
+
+p{
+    margin: 0;
+}
+
+.wrapper{
+    margin: auto;
+    height: 100%; 
+    width: 90%;
+    padding: 10px 0px; 
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    box-sizing: border-box; 
+}
+
+#log{
+    height: 15%;
+    flex-shrink: 0; 
+    overflow-y: hidden;
+}
+
+#content{
+    flex-grow: 1;
+    overflow-y: auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#credits{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    text-decoration: underline;
+    flex-shrink: 0;
+}
+
+#storage{
+    height: 100px;
+}
+
+#log, #content, #credits, #storage{
+    padding: 10px;
+    border: 2px solid black;
+}
+
+.button{
+    padding: 5px;
+    width: 80px;
+    height: 20px;
+
+    text-align: center;
+    border: solid 2px black;
+}
+
+#shopButtons, #settingsButtons{
+    display: flex; 
+    flex-direction: row; 
+    flex-wrap: wrap; 
+    gap: 10px; 
+    justify-content: space-evenly;
+}
+
+#storage:before, #content:before, #log:before  {
+    background: white;
+    content: attr(data-legend);
+    position: absolute;
+}
+
+#storage:before {
+    bottom: 185px;
+}
+
+#content:before  {
+    top: 155px;
+}
+
+#log:before  {
+    top: 0px;
+}

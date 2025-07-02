@@ -3,9 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/main.css">
     <title>The Atomic</title>
 </head>
 <body>
+    <!--
+    Haha you want to edit the game ? Or you are just curious ?
+    You can ! There's no problem with it :)
 
+    But if you want to play seriously, close this tab or you will be spoiled !
+    -->
+    <div class="wrapper">
+        <div class="page-tab" style="display: none;">
+            <ul>
+                <li>TAB1</li>
+                <li>TAB2</li>
+                <li>TAB3</li>
+            </ul>
+        </div>
+        <div id="log" data-legend="Context">
+            <div class="log-message">SAMPLE LOG</div>
+            <div class="log-message">SAMPLE LOG</div>
+            <div class="log-message">SAMPLE LOG</div>
+            <div class="log-message">SAMPLE LOG</div>
+            <div class="log-message">SAMPLE LOG</div>
+            <div class="log-message">SAMPLE LOG</div>
+            <div class="log-message">SAMPLE LOG</div>
+        </div>
+        <div id="content" data-legend="Adventure">
+            <div id="searchButton" class="button">SEARCH</div>
+            
+            <p id="shopTxt">Shop :</p>
+            <div id="shopButtons">
+                <div id="searchButton" class="button">NULL</div>
+                <div id="searchButton" class="button">NULL</div>
+                <div id="searchButton" class="button">NULL</div>
+                <div id="searchButton" class="button">NULL</div>
+            </div>
+
+            <!--Trouver un autre nom-->
+            <p id="settingsTxt">Settings :</p>
+            <div id="settingsButtons">
+                <div id="searchButton" class="button">NULL</div>
+                <div id="searchButton" class="button">NULL</div>
+                <div id="searchButton" class="button">NULL</div>
+                <div id="searchButton" class="button">NULL</div>
+            </div>
+        </div>
+        <div data-legend="Storage" id="storage">
+        </div>
+        <div id="credits">
+            <div id="creditsButton">CREDITS</div>
+            <div id="version">V0.0.1</div>
+        </div>
+    </div>
+    <script src="dist/main.js" defer></script>
 </body>
 </html>
