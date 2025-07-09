@@ -55,6 +55,15 @@ p{
 
 #storage{
     height: 100px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    overflow-x: scroll;
+    gap: 5px;
+}
+
+.storageItems{
+    width: 110px;
 }
 
 #log, #content, #credits, #storage{
