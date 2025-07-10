@@ -32,7 +32,7 @@ p{
 
 #log{
     height: 15%;
-    flex-shrink: 0; 
+    flex-shrink: 0;
     overflow-y: hidden;
 }
 

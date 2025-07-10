@@ -1,6 +1,7 @@
 import utils from "./utils.js";
 import stateManager from "./gameState.js";
 import lootManager from "./lootTable.js";
+import render from "./render.js";
 const gState = stateManager.gameStateInstance;
 const baseConsumption = 0.25;
 const consumeResource = (state, type) => {
@@ -53,6 +54,13 @@ function searchItems() {
         gState[potentialItem.name] += quantity;
         // Item découvert
         // TODO: Quand un item a été découvert afficher dans la box de logs un message
+        if (!potentialItem.discovered) {
+            render.renderLog("Wow you found " + quantity + " " + potentialItem.name + "s !");
+            render.renderStorage(potentialItem.name);
+        }
+        else {
+            render.renderLog("+" + quantity + " " + potentialItem.name);
+        }
         const item = lootManager.lootTable.find(i => i.name === potentialItem.name);
         item ? item.discovered = true : false;
         console.log("STATE: " + gState[potentialItem.name]);

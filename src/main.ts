@@ -2,6 +2,7 @@ import utils from "./utils.js"
 import { GameState } from "./gameState.js"; 
 import stateManager from "./gameState.js"
 import lootManager from "./lootTable.js"
+import render from "./render.js"
 
 const gState = stateManager.gameStateInstance;
 
@@ -70,6 +71,12 @@ function searchItems() : void {
     
     // Item découvert
     // TODO: Quand un item a été découvert afficher dans la box de logs un message
+    if (!potentialItem.discovered) {
+      render.renderLog("Wow you found " + quantity + " " + potentialItem.name + "s !");
+      render.renderStorage(potentialItem.name);
+    }else{
+      render.renderLog("+" + quantity + " " + potentialItem.name);
+    }
 
     const item = lootManager.lootTable.find(i => i.name === potentialItem.name);
     item ? item.discovered = true : false;
