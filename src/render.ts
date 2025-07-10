@@ -20,16 +20,17 @@ const renderLog = (message: string) : void => {
 
 const renderStorage = (id: string) : void => {
     const element = document.getElementById(id);
+    element ? element?.style.removeProperty("display") : console.log("This element doesn't exist " + id);
 
-    if (element === null) {
-        console.log("This element doesn't exist " + id);
-        return;
-    }
+}
 
-    element?.style.removeProperty("display");
+const renderStorageValue = (id: string, value : number) : void => {
+    const element = document.getElementById(id);
+    element ? element.textContent = value.toString() : console.log("This element doesn't exist " + id);
 }
 
 export default {
     renderLog,
     renderStorage,
+    renderStorageValue
 }

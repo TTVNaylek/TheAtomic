@@ -21,14 +21,13 @@ searchBtn === null || searchBtn === void 0 ? void 0 : searchBtn.addEventListener
     searchItems();
 });
 function searchItems() {
-    // TODO faire une fonction de recherche d'item avec une proba
     var _a;
     // Permet de récupérer 1 à 3 index d'items
     const itemsIndex = [];
     for (let i = 0; i < utils.randomValue(1, 3); i++) {
         itemsIndex[i] = utils.randomValue(0, lootManager.lootTable.length - 1);
     }
-    console.log("ITEMS INDEX: " + itemsIndex);
+    //console.log("ITEMS INDEX: " + itemsIndex);
     for (let i = 0; i < itemsIndex.length; i++) {
         const potentialItem = lootManager.lootTable[itemsIndex[i]];
         // Check si le ou les objet(s) précédent requis est discovered: true
@@ -40,20 +39,18 @@ function searchItems() {
         if (typeof quantity !== "number") {
             quantity = utils.randomValue(quantity[0], quantity[1]);
         }
-        console.log("--- Résultats de recherche ---");
         // TODO: Faire la méthode pour ajouter les items
         if (Math.random() > potentialItem.dropRate) {
-            console.log("NOTHING");
             break;
         }
-        console.log("TROUVÉ: " + potentialItem.name);
+        /*console.log("TROUVÉ: " + potentialItem.name);
         console.log("  - QUANTITÉ: " + quantity);
         console.log("  - DROP RATE: " + potentialItem.dropRate);
         console.log("  - DISCOVERED: " + potentialItem.discovered);
-        console.log("  - Requis: " + potentialItem.requires);
+        console.log("  - Requis: " + potentialItem.requires);*/
         gState[potentialItem.name] += quantity;
         // Item découvert
-        // TODO: Quand un item a été découvert afficher dans la box de logs un message
+        // Quand un item a été découvert afficher dans la box de logs un message
         if (!potentialItem.discovered) {
             render.renderLog("Wow you found " + quantity + " " + potentialItem.name + "s !");
             render.renderStorage(potentialItem.name);
@@ -63,27 +60,7 @@ function searchItems() {
         }
         const item = lootManager.lootTable.find(i => i.name === potentialItem.name);
         item ? item.discovered = true : false;
-        console.log("STATE: " + gState[potentialItem.name]);
-        console.log("------------------------");
-    }
-}
-function renderGameState(state) {
-    //DEBUG MODE
-    /*console.log("---CURRENT GAME STATE---");
-  
-    for (let i = 0; i < stateManager.keys.length; i++) {
-      console.log(stateManager.keys[i] + ": " + state[stateManager.keys[i]])
-    }
-  
-    console.log("------------------------");*/
-    // Affiche dans le DOM
-    const updateData = (id, value) => {
-        const doc = document.getElementById(id);
-        doc ? doc.textContent = value.toString() : "NULL DATA";
-    };
-    // Parcours le tableau de clés pour afficher les data
-    for (let i = 0; i < stateManager.keys.length; i++) {
-        updateData(stateManager.keys[i] + "-count", state[stateManager.keys[i]]);
+        /*console.log("STATE: "+ gState[potentialItem.name]);*/
     }
 }
 // 1 Sec
@@ -92,5 +69,8 @@ setInterval(() => {
     for (let i = 0; i < stateManager.consommable.length; i++) {
         consumeResource(gState, stateManager.consommable[i]);
     }
-    renderGameState(gState);
+    // Affiche les valeurs dans le stockage
+    for (let i = 0; i < stateManager.keys.length; i++) {
+        render.renderStorageValue(stateManager.keys[i] + "-count", stateManager.gameStateInstance[stateManager.keys[i]]);
+    }
 }, 1000);

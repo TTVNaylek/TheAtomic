@@ -15,13 +15,14 @@ const renderLog = (message) => {
 };
 const renderStorage = (id) => {
     const element = document.getElementById(id);
-    if (element === null) {
-        console.log("This element doesn't exist " + id);
-        return;
-    }
-    element === null || element === void 0 ? void 0 : element.style.removeProperty("display");
+    element ? element === null || element === void 0 ? void 0 : element.style.removeProperty("display") : console.log("This element doesn't exist " + id);
+};
+const renderStorageValue = (id, value) => {
+    const element = document.getElementById(id);
+    element ? element.textContent = value.toString() : console.log("This element doesn't exist " + id);
 };
 export default {
     renderLog,
     renderStorage,
+    renderStorageValue
 };
