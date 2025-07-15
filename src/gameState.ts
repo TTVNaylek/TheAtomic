@@ -1,6 +1,7 @@
 interface GameState {
   food: number,
   water: number,
+  electricity: number,
 
   wood: number,
   stick: number,
@@ -13,14 +14,18 @@ interface GameState {
 const gameStateInstance: GameState = {
   food: 100,
   water: 100,
+
+  electricity: 0,
+
   wood: 0,
   metal: 0,
   stick: 0,
   rock: 0,
+  
   survivors: 0,
 };
 
-const keys : Array<keyof GameState> = ["food", "water", "wood", "stick", "rock", "metal", "survivors"];
+const keys : Array<keyof GameState> = ["food", "water", "electricity", "wood", "stick", "rock", "metal", "survivors"];
 
 const consommable = ["food", "water"] as (keyof GameState)[];
 

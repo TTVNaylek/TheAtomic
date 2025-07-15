@@ -13,16 +13,16 @@ const renderLog = (message) => {
     logBox.appendChild(logMessage);
     logBox.scrollTop = logBox.scrollHeight;
 };
-const renderStorage = (id) => {
+const renderUnlocked = (id) => {
     const element = document.getElementById(id);
     element ? element === null || element === void 0 ? void 0 : element.style.removeProperty("display") : console.log("This element doesn't exist " + id);
 };
 const renderStorageValue = (id, value) => {
-    const element = document.getElementById(id);
+    const element = document.getElementById(id + "-count");
     element ? element.textContent = value.toString() : console.log("This element doesn't exist " + id);
 };
 export default {
     renderLog,
-    renderStorage,
+    renderUnlocked,
     renderStorageValue
 };
