@@ -1,5 +1,5 @@
 import { BuildState } from "./buildState.js";
-import bstateManager  from "./buildState.js";
+import bStateManager  from "./buildState.js";
 import { GameState } from "./gameState.js";
 import lootManager from "./lootTable.js"
 import render from "./render.js";
@@ -16,37 +16,36 @@ type Build = {
 }
 
 const buildTable: Build[] = [
-  { name: "lumberHut", cost: {"stick": 100}, discovered: false, requires: {resource: ["stick"]}},
-  { name: "stoneQuarry", cost: {"rock": 100}, discovered: false, requires: {buildings: ["lumberHut"], resource: ["rock"]}},
-  
-  // TODO: reflechire aux requis et aux prix
-  /*{ name: "scrapYard", cost: [["stick"], 100], discovered: false},
-  { name: "waterCollector", cost: [["wood", "metal"], 100], discovered: false},
-  { name: "basicGarden", cost: [["wood", "food", "water"], 100], discovered: false},
+  { name: "lumberHut", cost: { "stick": 80 }, discovered: false, requires: { resource: ["stick"] } },
+  { name: "stoneQuarry", cost: { "wood": 120 }, discovered: false, requires: { buildings: ["lumberHut"], resource: ["wood", "stick"] } },
+  { name: "smelter", cost: { "rock": 180, "stick": 50 }, discovered: false, requires: { buildings: ["stoneQuarry"], resource: ["rock", "wood"] } },
 
-  { name: "forge", cost: [["stick"], 100], discovered: false},
-  { name: "workshop", cost: [["stick"], 100], discovered: false},
-  { name: "smelter", cost: [["stick"], 100], discovered: false},
-  { name: "craftingChamber", cost: [["stick"], 100], discovered: false},
+  { name: "scrapYard", cost: { "wood": 180, "rock": 80 }, discovered: false, requires: { buildings: ["stoneQuarry"], resource: ["stick", "rock"] } },
+  { name: "waterCollector", cost: { "wood": 90, "metal": 40 }, discovered: false, requires: { buildings: ["smelter"], resource: ["rock", "metal"] } },
+  { name: "basicGarden", cost: { "wood": 100, "food": 40, "water": 40 }, discovered: false, requires: { buildings: ["waterCollector"], resource: ["food", "water"] } },
 
-  { name: "watchTower", cost: [["stick"], 100], discovered: false},
+  { name: "forge", cost: { "metal": 130, "rock": 40 }, discovered: false, requires: { buildings: ["smelter"], resource: ["metal", "stick"] } },
+  { name: "workshop", cost: { "metal": 130, "wood": 80 }, discovered: false, requires: { buildings: ["forge"], resource: ["wood", "metal"] } },
+  { name: "craftingChamber", cost: { "metal": 180, "wood": 130 }, discovered: false, requires: { buildings: ["workshop"], resource: ["metal", "wood"] } },
 
-  { name: "shelter", cost: [["stick"], 100], discovered: false},
-  { name: "medicalCenter", cost: [["stick"], 100], discovered: false},
-  { name: "commonRoom", cost: [["stick"], 100], discovered: false},
-  { name: "solarPanels", cost: [["stick"], 100], discovered: false},
-  { name: "radioTower", cost: [["stick"], 100], discovered: false},
-  { name: "sealedBunker", cost: [["stick"], 100], discovered: false},*/
+  { name: "watchTower", cost: { "wood": 180, "rock": 80 }, discovered: false, requires: { buildings: ["stoneQuarry"], resource: ["rock", "wood"] } },
+  { name: "shelter", cost: { "wood": 120, "stick": 80 }, discovered: false, requires: { buildings: ["lumberHut"], resource: ["wood", "stick"] } },
+  { name: "medicalCenter", cost: { "wood": 180, "metal": 80 }, discovered: false, requires: { buildings: ["shelter"], resource: ["metal", "wood"] } },
+  { name: "commonRoom", cost: { "wood": 130, "food": 80 }, discovered: false, requires: { buildings: ["basicGarden"], resource: ["food", "water"] } },
+
+  { name: "solarPanels", cost: { "metal": 220 }, discovered: false, requires: { buildings: ["forge"], resource: ["metal"] } },
+  { name: "radioTower", cost: { "metal": 260, "rock": 130 }, discovered: false, requires: { buildings: ["solarPanels"], resource: ["metal", "rock"] } },
+  { name: "sealedBunker", cost: { "metal": 450, "rock": 280, "wood": 280 }, discovered: false, requires: { buildings: ["radioTower", "medicalCenter"], resource: ["metal", "rock", "wood"] } },
 ];
 
-// Retorune le prix du batiment sous forme {ressource: prix}
+// Retorune la production du batiment sous forme {ressource: production}
 function getBuildCost(buildName: keyof BuildState) : {[resources in keyof GameState]? : number} {
     // Récupère le building dans la table
     const build = buildTable.find(b => b.name === buildName);
     if (!build)return {};
 
     // Récupérer le nb de batiments construits
-    const nbBuilt = bstateManager.bStateInstance[buildName].nbOfBuild;
+    const nbBuilt = bStateManager.bStateInstance[buildName].nbOfBuild;
 
     const dynCost: {[resource in keyof GameState]?: number} = {};
     // Pour chaques ressources dans build.cost
@@ -60,18 +59,29 @@ function getBuildCost(buildName: keyof BuildState) : {[resources in keyof GameSt
     return dynCost;
 }
 
+// Check si un batiment peut être débloqué
 function checkBuildingRequire() : void{
     for (let i = 0; i < buildTable.length; i++) {
 
-        if (buildTable[i].discovered)break;
+        if (buildTable[i].discovered){
+			continue;
+		}
+
+		const buildReq = buildTable[i].requires?.buildings;
 
         // Check les requis de tous les batiments pour les dévérouiller
-        if (buildTable[i].requires?.buildings?.some(req => !buildTable.find(item => item.name === req)?.discovered)
+        if (buildReq?.some(req => !buildTable.find(item => item.name === req)?.discovered)
         || buildTable[i].requires?.resource?.some(req => !lootManager.lootTable.find(item => item.name === req)?.discovered)) {
             continue;
         }
 
-        render.renderUnlocked(buildTable[i].name)
+		// Vérifie qu'au minimum 1 batiment requis soit construit pour débloquer le suivant
+		if (buildReq?.some(req => bStateManager.bStateInstance[req].nbOfBuild < 1)) {
+			continue;
+		}
+
+		buildTable[i].discovered = true;
+        render.renderUnlocked(buildTable[i].name);
         render.renderLog("[UNLOCKED] You can now build " + buildTable[i].name + " for only " + buildTable[i].cost + " !");
     }
 }

@@ -4,30 +4,30 @@ import stateManager from "./gameState.js"
 import lManager from "./lootTable.js"
 import bManager from "./buildTable.js"
 import render from "./render.js"
+import { BuildState } from "./buildState.js";
 
 const gState = stateManager.gameStateInstance;
 
 const baseConsumption = 0.25;
 
-const consumeResource = (state: GameState, type: keyof GameState) : void => {
-  if (state[type] <= 0){
-    state[type] = 0;
-    return;
-  }
+// Consomme les ressources food et water en fonction des survivants
+const consumeResource = (state: GameState) : void => {
+  const keys = Object.keys(state) as Array<keyof GameState>;
+  for (let i = 0; i < keys.length; i++) {
+    if (state[keys[i]] <= 0){
+      state[keys[i]] = 0;
+      continue;
+    }
 
-  if (utils.isNotNullAndSuperior(state.survivors)){
-    state[type] -= baseConsumption * state.survivors;
-    return;
+    state[keys[i]] -= baseConsumption * (state.survivors + 1);
   }
-
-  state[type] -= baseConsumption;
-  return;
 }
 
-const gainResource = (state : GameState, type: keyof GameState) : void => {
+
+const gainResource = (gameState : GameState, buildState: BuildState, type?: keyof GameState) : void => {
     // Gagner une resource selon le batiment et son niveau
+    console.log("BUILD STATE: " + Object.keys(buildState));
 }
-
 
 const searchBtn = document.getElementById("searchButton");
 searchBtn?.addEventListener('click', (event: MouseEvent) => {
@@ -51,7 +51,6 @@ function searchItems() : void {
     // some() parcourt requires qui va permettre de check chaques requis avec find
     if (potentialItem.requires?.building?.some(req => !bManager.buildTable.find(item => item.name === req)?.discovered)
     || potentialItem.requires?.resource?.some(req => !lManager.lootTable.find(item => item.name === req)?.discovered)) {
-      render.renderLog("Nothing found...");
       continue;
     }
 
@@ -85,14 +84,16 @@ function searchItems() : void {
     const item = lManager.lootTable.find(i => i.name === potentialItem.name);
     if (item){
       item.discovered = true;
-      // Vérifie si on débloque un batiment
-      bManager.checkBuildingRequire();
     }
     /*console.log("STATE: "+ gState[potentialItem.name]);*/
   }
+  
+  // Vérifie si on débloque un batiment
+  bManager.checkBuildingRequire();
 }
 
 export default {
     consumeResource,
     searchItems,
+    gainResource,
 }
