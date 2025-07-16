@@ -9,10 +9,9 @@ const gameStateInstance = {
     rock: 0,
     survivors: 0,
 };
-const keys = ["food", "water", "electricity", "wood", "stick", "rock", "metal", "survivors"];
+// Ressources à diminuer par rapport aux survivants
 const consommable = ["food", "water"];
 export default {
     gameStateInstance,
-    keys,
     consommable
 };

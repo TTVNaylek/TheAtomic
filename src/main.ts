@@ -2,27 +2,36 @@ import stateManager from "./gameState.js"
 import bStateManager from "./buildState.js"
 import render from "./render.js"
 import action from "./action.js"
+import bManager from "./buildTable.js"
 
 const gState = stateManager.gameStateInstance;
 const bState = bStateManager.bStateInstance;
 
 setInterval(() => {
+  action.gainResourceByBuilds(gState, bState)
+  render.renderStates(gState, bState);
+  action.consumeResourceBySurvivors(gState)
+}, 1000);
 
-  // Consomme les ressources selon les survivants
-  /*for (let i = 0; i < stateManager.consommable.length; i++) {
-    action.consumeResource(gState, stateManager.consommable[i])
-  }*/
 
-  action.consumeResource(gState)
+// Interaction with buttons
+document.addEventListener('click', (event) => {
+  const clickedElement = event.target as HTMLElement;
 
-  action.gainResource(gState, bState)
+  if (!clickedElement.id)return;
 
-  // Affiche les valeurs dans le stockage
-  for (let i = 0; i < stateManager.keys.length; i++) {
-    render.renderStorageValue(stateManager.keys[i], gState[stateManager.keys[i]]);
+  switch (clickedElement.id) {
+    case "searchButton":
+      action.searchItems();
+      break;
+  
+    case bManager.buildTable.find(build => build.name === clickedElement.id)?.name:
+      console.log("BUY BUILD");
+      action.buyBuilding(clickedElement.id);
+      break;
+    
+    default:
+      break;
   }
 
-  // TODO: Lorsque un batiment est débloqué faire en sorte de faire gagner la ressources
-  // ex: batiment * resourcesByBatiment
-
-}, 1000);
+});

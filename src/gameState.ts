@@ -25,16 +25,17 @@ const gameStateInstance: GameState = {
   survivors: 0,
 };
 
-const keys : Array<keyof GameState> = ["food", "water", "electricity", "wood", "stick", "rock", "metal", "survivors"];
+type ResourceKey = keyof GameState;
 
-const consommable = ["food", "water"] as (keyof GameState)[];
+// Ressources à diminuer par rapport aux survivants
+const consommable = ["food", "water"] as Array<ResourceKey>;
 
 export default {
     gameStateInstance,
-    keys,
     consommable
 }
 
 export {
-    GameState
+    GameState,
+    ResourceKey
 }

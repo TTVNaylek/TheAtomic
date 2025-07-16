@@ -2,9 +2,9 @@ import bStateManager from "./buildState.js";
 import lootManager from "./lootTable.js";
 import render from "./render.js";
 const buildTable = [
-    { name: "lumberHut", cost: { "stick": 80 }, discovered: false, requires: { resource: ["stick"] } },
-    { name: "stoneQuarry", cost: { "wood": 120 }, discovered: false, requires: { buildings: ["lumberHut"], resource: ["wood", "stick"] } },
-    { name: "smelter", cost: { "rock": 180, "stick": 50 }, discovered: false, requires: { buildings: ["stoneQuarry"], resource: ["rock", "wood"] } },
+    { name: "lumberHut", cost: { "stick": 80 }, discovered: true, requires: { resource: ["stick"] } },
+    { name: "stoneQuarry", cost: { "wood": 120 }, discovered: true, requires: { buildings: ["lumberHut"], resource: ["wood", "stick"] } },
+    { name: "smelter", cost: { "rock": 180, "stick": 50 }, discovered: true, requires: { buildings: ["stoneQuarry"], resource: ["rock", "wood"] } },
     { name: "scrapYard", cost: { "wood": 180, "rock": 80 }, discovered: false, requires: { buildings: ["stoneQuarry"], resource: ["stick", "rock"] } },
     { name: "waterCollector", cost: { "wood": 90, "metal": 40 }, discovered: false, requires: { buildings: ["smelter"], resource: ["rock", "metal"] } },
     { name: "basicGarden", cost: { "wood": 100, "food": 40, "water": 40 }, discovered: false, requires: { buildings: ["waterCollector"], resource: ["food", "water"] } },
@@ -57,8 +57,7 @@ function checkBuildingRequire() {
             continue;
         }
         buildTable[i].discovered = true;
-        render.renderUnlocked(buildTable[i].name);
-        render.renderLog("[UNLOCKED] You can now build " + buildTable[i].name + " for only " + buildTable[i].cost + " !");
+        render.renderLog("[UNLOCKED] You can now build " + buildTable[i].name + " for only " + JSON.stringify(buildTable[i].cost) + " !");
     }
 }
 export default {

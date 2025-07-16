@@ -1,6 +1,6 @@
 ;
 const bStateInstance = {
-    lumberHut: { nbOfBuild: 0, assignedSurvivors: 0 },
+    lumberHut: { nbOfBuild: 1, production: { stick: 1, wood: 1 }, assignedSurvivors: 0 },
     stoneQuarry: { nbOfBuild: 0, consumption: ["wood"], assignedSurvivors: 0 },
     scrapYard: { nbOfBuild: 0 },
     waterCollector: { nbOfBuild: 0 },
@@ -17,31 +17,29 @@ const bStateInstance = {
     radioTower: { nbOfBuild: 0, consumption: ["electricity"], assignedSurvivors: 0 },
     sealedBunker: { nbOfBuild: 0, consumption: ["food", "water", "electricity"], assignedSurvivors: 0 },
 };
-/*function getProduction(buildName: keyof BuildState) : {[resources in keyof GameState]? : number} {
-  //Checker si le batiment est construit 1 fois minimum
-  // Si non return
-  // Si oui produire la ressource * (batiment + 1)
-
-
-    // Récupère le building dans la table
-    const build = bStateInstance.find(b => b.name === buildName);
-    if (!build)return {};
-
-    // Récupérer le nb de batiments construits
-    const nbBuilt = bstateManager.bStateInstance[buildName].nbOfBuild;
-
-    const dynCost: {[resource in keyof GameState]?: number} = {};
-    // Pour chaques ressources dans build.cost
-    // On fait baseAmount * (nbBuilt + 1)
-    for (const resource in build.cost) {
-        const baseAmount = build.cost[resource as keyof GameState];
-        if (baseAmount === undefined) return {};
-        // Prix de base * (nb deja construit + le suivant)
-        dynCost[resource as keyof GameState] = baseAmount * (nbBuilt + 1);
+function getProduction(buildState) {
+    var _a;
+    const buildKeys = Object.keys(buildState);
+    const dynProd = {};
+    for (let i = 0; i < buildKeys.length; i++) {
+        const nbBuilt = buildState[buildKeys[i]].nbOfBuild;
+        const prodTable = buildState[buildKeys[i]].production;
+        if (nbBuilt < 1 || !prodTable) {
+            continue;
+        }
+        // Récupère chaque ressources de prodTable dans ressource
+        for (const ressource in prodTable) {
+            const typedResource = ressource;
+            const production = prodTable[typedResource];
+            if (!production) {
+                continue;
+            }
+            dynProd[typedResource] = ((_a = dynProd[typedResource]) !== null && _a !== void 0 ? _a : 0) + production * nbBuilt;
+        }
     }
-    return dynCost;
-}*/
+    return dynProd;
+}
 export default {
     bStateInstance,
-    //keys,
+    getProduction
 };
