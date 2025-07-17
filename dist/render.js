@@ -21,7 +21,9 @@ const renderStates = (gameState, buildState) => {
     renderBuildings(buildState);
 };
 const renderResources = (gameState) => {
+    // Récupère la list des items découverts
     const discoveredItems = new Set(lManager.lootTable.filter(element => element.discovered).map(element => element.name));
+    console.log(discoveredItems);
     for (const ressource of Object.keys(gameState)) {
         if ( /*!gameState[ressource] ||*/!discoveredItems.has(ressource)) {
             continue;
@@ -30,6 +32,7 @@ const renderResources = (gameState) => {
     }
 };
 const renderBuildings = (buildState) => {
+    // Récupère la list des builds découverts
     const discoveredBuilds = new Set(bManager.buildTable.filter(element => element.discovered).map(element => element.name));
     for (const build of Object.keys(buildState)) {
         if ( /*!buildState[build].nbOfBuild ||*/!discoveredBuilds.has(build)) {

@@ -7,8 +7,8 @@ const gState = stateManager.gameStateInstance;
 const bState = bStateManager.bStateInstance;
 setInterval(() => {
     action.gainResourceByBuilds(gState, bState);
-    render.renderStates(gState, bState);
     action.consumeResourceBySurvivors(gState);
+    render.renderStates(gState, bState);
 }, 1000);
 // Interaction with buttons
 document.addEventListener('click', (event) => {

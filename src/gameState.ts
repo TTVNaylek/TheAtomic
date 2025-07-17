@@ -11,6 +11,7 @@ interface GameState {
   survivors: number,
 };
 
+
 const gameStateInstance: GameState = {
   food: 100,
   water: 100,

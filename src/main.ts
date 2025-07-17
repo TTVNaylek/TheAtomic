@@ -8,9 +8,9 @@ const gState = stateManager.gameStateInstance;
 const bState = bStateManager.bStateInstance;
 
 setInterval(() => {
-  action.gainResourceByBuilds(gState, bState)
+  action.gainResourceByBuilds(gState, bState);
+  action.consumeResourceBySurvivors(gState);
   render.renderStates(gState, bState);
-  action.consumeResourceBySurvivors(gState)
 }, 1000);
 
 

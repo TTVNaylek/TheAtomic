@@ -1,4 +1,4 @@
-import { GameState } from "./gameState.js";
+import { GameState, ResourceKey } from "./gameState.js";
 
 type BuildInstance = {
   nbOfBuild: number;
@@ -55,9 +55,9 @@ const bStateInstance: BuildState = {
 
 type BuildKey = keyof BuildState;
 
-function getProduction(buildState: BuildState) : {[resources in keyof GameState]? : number} {
+function getProduction(buildState: BuildState) : {[resources in ResourceKey]? : number} {
   const buildKeys = Object.keys(buildState) as Array<BuildKey>;
-  const dynProd: {[resource in keyof GameState]?: number} = {};
+  const dynProd: {[resource in ResourceKey]?: number} = {};
   
   for (let i = 0; i < buildKeys.length; i++) {
     const nbBuilt = buildState[buildKeys[i]].nbOfBuild;
@@ -69,7 +69,7 @@ function getProduction(buildState: BuildState) : {[resources in keyof GameState]
 
     // Récupère chaque ressources de prodTable dans ressource
     for (const ressource in prodTable) {
-      const typedResource = ressource as keyof GameState;
+      const typedResource = ressource as ResourceKey;
       const production = prodTable[typedResource];
       if (!production) {
         continue;
