@@ -1,6 +1,7 @@
 import stylistic from "@stylistic/eslint-plugin";
 import {config} from "typescript-eslint";
 import parser from '@typescript-eslint/parser';
+import typescriptPlugin from '@typescript-eslint/eslint-plugin';
 
 
 export default config([

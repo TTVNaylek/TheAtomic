@@ -1,7 +1,7 @@
-import { GameState, ResourceKey } from "./gameState.js"; 
-import { BuildKey, BuildState } from "./buildState.js";
-import lManager from "./lootTable.js"
-import bManager from "./buildTable.js"
+import {GameState, ResourceKey} from "./gameState.js";
+import {BuildKey, BuildState} from "./buildState.js";
+import lManager from "./lootTable.js";
+import bManager from "./buildTable.js";
 
 const MAX_LOGS_LINES = 6;
 
@@ -22,27 +22,25 @@ const renderLog = (message: string) : void => {
     
     logBox.appendChild(logMessage);
     logBox.scrollTop = logBox.scrollHeight;
-}
+};
 
 const renderStates = (gameState : GameState, buildState: BuildState) : void => {
     renderResources(gameState);
     renderBuildings(buildState);
-}
+};
 
 const renderResources = (gameState : GameState) : void => {
     // Récupère la list des items découverts
     const discoveredItems = new Set(lManager.lootTable.filter(element => element.discovered).map(element => element.name));
-
-    console.log(discoveredItems);
     
     for (const ressource of Object.keys(gameState) as Array<ResourceKey>) {
         if (/*!gameState[ressource] ||*/
-        !discoveredItems.has(ressource)) {
+            !discoveredItems.has(ressource)) {
             continue;
         }
         updateDisplay(ressource, gameState[ressource]);
     }
-}
+};
 
 const renderBuildings = (buildState: BuildState) : void => {
     // Récupère la list des builds découverts
@@ -54,7 +52,7 @@ const renderBuildings = (buildState: BuildState) : void => {
         }
         updateDisplay(build, buildState[build].nbOfBuild);
     }
-}
+};
 
 const updateDisplay = (id: string, value : number) : void => {
     const element = document.getElementById(id);
@@ -67,17 +65,17 @@ const updateDisplay = (id: string, value : number) : void => {
     element.style.removeProperty("display");
 
     if (!elementCount) {
-        warnMissingElement(id + "-count")
+        warnMissingElement(id + "-count");
         return;
     }
     elementCount.textContent = value.toString();
-}
+};
 
 const warnMissingElement = (id: string) : void => {
     console.log("This element doesn't exist " + id);
-}
+};
 
 export default {
     renderLog,
     renderStates
-}
+};
