@@ -36,6 +36,11 @@ const renderResources = (gameState : GameState) : void => {
     for (const ressource of Object.keys(gameState) as Array<ResourceKey>) {
         if (/*!gameState[ressource] ||*/
             !discoveredItems.has(ressource)) {
+            // Hide element if not discovered (prevent from reset function)
+            const element = document.getElementById(ressource);
+            if (element) {
+                element.style.display = "none";
+            }
             continue;
         }
         updateDisplay(ressource, gameState[ressource]);

@@ -26,6 +26,8 @@ const lootTable: LootItem[] = [
     {name: "metal", dropRate: 0.35, quantity: [1, 2], discovered: false, requires: {resources: ["rock"], buildings: ["smelter"]}},
 ];
 
+const initialLTable : LootItem[] = structuredClone(lootTable);
+
 function isLootUnlocked(arg: LootItem): boolean {
     const hasUndiscoveredResource = arg.requires?.resources?.some(
         req => !lootTable.find(item => item.name === req)?.discovered
@@ -40,5 +42,6 @@ function isLootUnlocked(arg: LootItem): boolean {
 
 export default {
     lootTable,
-    isLootUnlocked
+    isLootUnlocked,
+    initialLTable,
 };

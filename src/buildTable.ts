@@ -37,6 +37,8 @@ const buildTable: Build[] = [
     {name: "sealedBunker", cost: {"metal": 450, "rock": 280, "wood": 280}, discovered: false, requires: {buildings: ["radioTower", "medicalCenter"], resource: ["metal", "rock", "wood"]}},
 ];
 
+const initialBTable : Build[] = structuredClone(buildTable);
+
 // Retorune la production du batiment sous forme {ressource: production}
 function getBuildCost(buildName: BuildKey) : {[resources in ResourceKey]? : number} {
     // Récupère le building dans la table
@@ -82,4 +84,5 @@ export default {
     buildTable,
     getBuildCost,
     checkBuildingRequire,
+    initialBTable,
 };

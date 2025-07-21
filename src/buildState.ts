@@ -30,6 +30,8 @@ interface BuildState {
     sealedBunker: BuildInstance;
 };
 
+type BuildKey = keyof BuildState;
+
 const bStateInstance: BuildState = {
     lumberHut: {nbOfBuild: 1, production: {stick: 1, wood: 1}, assignedSurvivors: 0},
     stoneQuarry: {nbOfBuild: 0, production: {rock: 1}, consumption: ["wood"], assignedSurvivors: 0},
@@ -53,7 +55,8 @@ const bStateInstance: BuildState = {
     sealedBunker: {nbOfBuild: 0, consumption: ["food", "water", "electricity"], assignedSurvivors: 0},
 };
 
-type BuildKey = keyof BuildState;
+const initialBState : BuildState = structuredClone(bStateInstance);
+
 
 function getProduction(buildState: BuildState) : {[resources in ResourceKey]? : number} {
     const buildKeys = Object.keys(buildState) as Array<BuildKey>;
@@ -87,7 +90,8 @@ function getProduction(buildState: BuildState) : {[resources in ResourceKey]? : 
 
 export default {
     bStateInstance,
-    getProduction
+    getProduction,
+    initialBState,
 };
 
 export {

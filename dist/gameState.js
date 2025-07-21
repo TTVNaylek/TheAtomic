@@ -9,9 +9,11 @@ const gameStateInstance = {
     rock: 0,
     survivors: 0,
 };
+const initialGState = structuredClone(gameStateInstance);
 // Ressources à diminuer par rapport aux survivants
 const consommable = ["food", "water"];
 export default {
     gameStateInstance,
-    consommable
+    consommable,
+    initialGState,
 };

@@ -23,9 +23,13 @@ const renderStates = (gameState, buildState) => {
 const renderResources = (gameState) => {
     // Récupère la list des items découverts
     const discoveredItems = new Set(lManager.lootTable.filter(element => element.discovered).map(element => element.name));
-    console.log(discoveredItems);
     for (const ressource of Object.keys(gameState)) {
         if ( /*!gameState[ressource] ||*/!discoveredItems.has(ressource)) {
+            // Hide element if not discovered (prevent from reset function)
+            const element = document.getElementById(ressource);
+            if (element) {
+                element.style.display = "none";
+            }
             continue;
         }
         updateDisplay(ressource, gameState[ressource]);
@@ -44,8 +48,16 @@ const renderBuildings = (buildState) => {
 const updateDisplay = (id, value) => {
     const element = document.getElementById(id);
     const elementCount = document.getElementById(id + "-count");
-    element ? element.style.removeProperty("display") : warnMissingElement(id);
-    elementCount ? elementCount.textContent = value.toString() : warnMissingElement(id + "-count");
+    if (!element) {
+        warnMissingElement(id);
+        return;
+    }
+    element.style.removeProperty("display");
+    if (!elementCount) {
+        warnMissingElement(id + "-count");
+        return;
+    }
+    elementCount.textContent = value.toString();
 };
 const warnMissingElement = (id) => {
     console.log("This element doesn't exist " + id);

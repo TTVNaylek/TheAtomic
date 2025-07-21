@@ -19,6 +19,7 @@ const buildTable = [
     { name: "radioTower", cost: { "metal": 260, "rock": 130 }, discovered: false, requires: { buildings: ["solarPanels"], resource: ["metal", "rock"] } },
     { name: "sealedBunker", cost: { "metal": 450, "rock": 280, "wood": 280 }, discovered: false, requires: { buildings: ["radioTower", "medicalCenter"], resource: ["metal", "rock", "wood"] } },
 ];
+const initialBTable = structuredClone(buildTable);
 // Retorune la production du batiment sous forme {ressource: production}
 function getBuildCost(buildName) {
     // Récupère le building dans la table
@@ -33,35 +34,35 @@ function getBuildCost(buildName) {
     for (const resource in build.cost) {
         const baseAmount = build.cost[resource];
         if (baseAmount === undefined)
-            return {};
+            continue;
         // Prix de base * (nb deja construit + le suivant)
         dynCost[resource] = baseAmount * (nbBuilt + 1);
     }
     return dynCost;
 }
+;
 // Check si un batiment peut être débloqué
 function checkBuildingRequire() {
     var _a, _b, _c;
     for (let i = 0; i < buildTable.length; i++) {
-        if (buildTable[i].discovered) {
+        if (buildTable[i].discovered)
             continue;
-        }
         const buildReq = (_a = buildTable[i].requires) === null || _a === void 0 ? void 0 : _a.buildings;
         // Check les requis de tous les batiments pour les dévérouiller
         if ((buildReq === null || buildReq === void 0 ? void 0 : buildReq.some(req => { var _a; return !((_a = buildTable.find(item => item.name === req)) === null || _a === void 0 ? void 0 : _a.discovered); }))
-            || ((_c = (_b = buildTable[i].requires) === null || _b === void 0 ? void 0 : _b.resource) === null || _c === void 0 ? void 0 : _c.some(req => { var _a; return !((_a = lootManager.lootTable.find(item => item.name === req)) === null || _a === void 0 ? void 0 : _a.discovered); }))) {
+            || ((_c = (_b = buildTable[i].requires) === null || _b === void 0 ? void 0 : _b.resource) === null || _c === void 0 ? void 0 : _c.some(req => { var _a; return !((_a = lootManager.lootTable.find(item => item.name === req)) === null || _a === void 0 ? void 0 : _a.discovered); })))
             continue;
-        }
         // Vérifie qu'au minimum 1 batiment requis soit construit pour débloquer le suivant
-        if (buildReq === null || buildReq === void 0 ? void 0 : buildReq.some(req => bStateManager.bStateInstance[req].nbOfBuild < 1)) {
+        if (buildReq === null || buildReq === void 0 ? void 0 : buildReq.some(req => bStateManager.bStateInstance[req].nbOfBuild < 1))
             continue;
-        }
         buildTable[i].discovered = true;
         render.renderLog("[UNLOCKED] You can now build " + buildTable[i].name + " for only " + JSON.stringify(buildTable[i].cost) + " !");
     }
 }
+;
 export default {
     buildTable,
     getBuildCost,
     checkBuildingRequire,
+    initialBTable,
 };
