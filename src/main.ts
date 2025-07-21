@@ -15,7 +15,7 @@ setInterval(() => {
     action.consumeResourceBySurvivors(gState);
     render.renderStates(gState, bState);
 
-    // TODO: Améliorer ceci
+    // TODO: Améliorer ceci (Auto-save)
     if (i === 30) {
         store.saveGame(gState, bState);
         i = 0;
