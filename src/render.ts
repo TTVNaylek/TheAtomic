@@ -52,9 +52,7 @@ const renderResources = (gameState: GameState) : void => {
             !discoveredItems.has(ressource)) {
             // Hide element if not discovered (prevent from reset function)
             const element = document.getElementById(ressource);
-            if (element) {
-                element.style.display = "none";
-            }
+            if (element) element.style.display = "none";
             continue;
         }
         updateDisplay(ressource, gameState[ressource]);
@@ -64,14 +62,13 @@ const renderResources = (gameState: GameState) : void => {
 const renderBuildings = (buildState: BuildState) : void => {
     // Récupère la list des builds découverts
     const discoveredBuilds = new Set(bManager.buildTable.filter(element => element.discovered).map(element => element.name));
+
     for (const build of Object.keys(buildState) as Array<BuildKey>) {
         if (/*!buildState[build].nbOfBuild ||*/
             !discoveredBuilds.has(build)) {
             // Hide element if not discovered (prevent from reset function)
             const element = document.getElementById(build);
-            if (element) {
-                element.style.display = "none";
-            }
+            if (element) element.style.display = "none";
             continue;
         }
         updateDisplay(build, buildState[build].nbOfBuild);

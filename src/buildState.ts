@@ -33,7 +33,7 @@ interface BuildState {
 type BuildKey = keyof BuildState;
 
 const bStateInstance: BuildState = {
-    lumberHut: {nbOfBuild: 1, production: {stick: 1, wood: 1}, assignedSurvivors: 0},
+    lumberHut: {nbOfBuild: 0, production: {stick: 1, wood: 1}, assignedSurvivors: 0},
     stoneQuarry: {nbOfBuild: 0, production: {rock: 1}, consumption: ["wood"], assignedSurvivors: 0},
     scrapYard: {nbOfBuild: 0},
     waterCollector: {nbOfBuild: 0, production: {water: 1}, assignedSurvivors: 0},
