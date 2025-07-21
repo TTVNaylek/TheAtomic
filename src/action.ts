@@ -20,7 +20,7 @@ function consumeResourceBySurvivors (state: GameState) : void {
 };
 
 // Gagner une resource selon le batiment et son niveau
-function gainResourceByBuilds (gameState : GameState, buildState: BuildState) : void {
+function gainResourceByBuilds (gameState: GameState, buildState: BuildState) : void {
     const prod = bStateManager.getProduction(buildState);
 
     for (const key in prod) {
@@ -42,7 +42,7 @@ const handleLootDrop = (arg: LootItem) : boolean => {
     return true;
 };
 
-const renderLoot = (arg: LootItem, qty : number) => {
+const renderLoot = (arg: LootItem, qty: number) : void => {
     // Item découvert
     // Quand un item a été découvert afficher dans la box de logs un message
     if (!arg.discovered) {
@@ -135,7 +135,7 @@ function searchItems() : void {
     bManager.checkBuildingRequire();
 }*/
 
-function buyBuilding(buildName : string) : void {
+function buyBuilding(buildName: string) : void {
     // Récupérer le nom du build et son prix (getBuildCost)
     const build = buildName as BuildKey;
     const bCost = bManager.getBuildCost(build);

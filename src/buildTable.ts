@@ -15,9 +15,9 @@ type Build = {
 };
 
 const buildTable: Build[] = [
-    {name: "lumberHut", cost: {"stick": 80}, discovered: true, requires: {resource: ["stick"]}},
-    {name: "stoneQuarry", cost: {"wood": 120}, discovered: true, requires: {buildings: ["lumberHut"], resource: ["wood", "stick"]}},
-    {name: "smelter", cost: {"rock": 180, "stick": 50}, discovered: true, requires: {buildings: ["stoneQuarry"], resource: ["rock", "wood"]}},
+    {name: "lumberHut", cost: {"stick": 80}, discovered: false, requires: {resource: ["stick"]}},
+    {name: "stoneQuarry", cost: {"wood": 120}, discovered: false, requires: {buildings: ["lumberHut"], resource: ["wood", "stick"]}},
+    {name: "smelter", cost: {"rock": 180, "stick": 50}, discovered: false, requires: {buildings: ["stoneQuarry"], resource: ["rock", "wood"]}},
   
     {name: "scrapYard", cost: {"wood": 180, "rock": 80}, discovered: false, requires: {buildings: ["stoneQuarry"], resource: ["stick", "rock"]}},
     {name: "waterCollector", cost: {"wood": 90, "metal": 40}, discovered: false, requires: {buildings: ["smelter"], resource: ["rock", "metal"]}},
@@ -37,7 +37,7 @@ const buildTable: Build[] = [
     {name: "sealedBunker", cost: {"metal": 450, "rock": 280, "wood": 280}, discovered: false, requires: {buildings: ["radioTower", "medicalCenter"], resource: ["metal", "rock", "wood"]}},
 ];
 
-const initialBTable : Build[] = structuredClone(buildTable);
+const initialBTable: Build[] = structuredClone(buildTable);
 
 // Retorune la production du batiment sous forme {ressource: production}
 function getBuildCost(buildName: BuildKey) : {[resources in ResourceKey]? : number} {
@@ -75,7 +75,7 @@ function checkBuildingRequire() : void{
         // Vérifie qu'au minimum 1 batiment requis soit construit pour débloquer le suivant
         if (buildReq?.some(req => bStateManager.bStateInstance[req].nbOfBuild < 1))continue;
 
-        buildTable[i].discovered = true;
+        buildTable[i].discovered = false;
         render.renderLog("[UNLOCKED] You can now build " + buildTable[i].name + " for only " + JSON.stringify(buildTable[i].cost) + " !");
     }
 };

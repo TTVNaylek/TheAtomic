@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./styles/main.css">
+    <link rel="stylesheet" href="./styles/camp.css">
     <title>The Atomic</title>
 </head>
 <body>
@@ -14,62 +15,72 @@
     But if you want to play seriously, close this tab or you will be spoiled !
     -->
     <div class="wrapper">
-        <div class="page-tab" style="display: none;">
+        <div id="nav" data-legend="Tabs">
             <ul>
-                <li>TAB1</li>
-                <li>TAB2</li>
-                <li>TAB3</li>
+                <li><a href="#" class="active" id="camp-nav">CAMP</a></li>
+                <li><a href="#" style="display: none;" id="jobs-nav">JOBS</a></li>
+                <li><a href="#" id="jobs-nav">TAB3</a></li>
+                <li><a href="#" id="jobs-nav">TAB4</a></li>
+                <li><a href="#" id="jobs-nav">TAB5</a></li>
             </ul>
         </div>
         <div id="log" data-legend="Context">
             <!--<div class="log-message">SAMPLE LOG</div>-->
         </div>
-        <div id="content" data-legend="Adventure">
+
+        <div class="tab-content active" id="camp">
+            <div id="content" data-legend="Adventure">
             <div id="searchButton" class="button">SEARCH</div>
             
             <p id="shopTxt">Shop :</p>
             <div id="shopButtons">
-                <div id="lumberHut" style="display: none;" class="button">Lumber Hut <span id="lumberHut-count">0</span></div>
-                <div id="stoneQuarry" style="display: none;" class="button">Stone Quarry <span id="stoneQuarry-count">0</span></div>
-                <div id="scrapYard" style="display: none;" class="button">Scrap Yard <span id="scrapYard-count">0</span></div>
-                <div id="waterCollector" style="display: none;" class="button">Basic Garden <span id="waterCollector-count">0</span></div>
-                <div id="basicGarden" style="display: none;" class="button">Basic Garden <span id="basicGarden-count">0</span></div>
+                <div id="lumberHut"  class="button">Lumber Hut <span id="lumberHut-count">0</span></div>
+                <div id="stoneQuarry"  class="button">Stone Quarry <span id="stoneQuarry-count">0</span></div>
+                <div id="scrapYard"  class="button">Scrap Yard <span id="scrapYard-count">0</span></div>
+                <div id="waterCollector"  class="button">Basic Garden <span id="waterCollector-count">0</span></div>
+                <div id="basicGarden"  class="button">Basic Garden <span id="basicGarden-count">0</span></div>
 
-                <div id="forge" style="display: none;" class="button">Forge <span id="forge-count">0</span></div>
-                <div id="workshop" style="display: none;" class="button">Workshop <span id="workshop-count">0</span></div>
-                <div id="smelter" style="display: none;" class="button">Smelter <span id="smelter-count">0</span></div>
-                <div id="craftingChamber" style="display: none;" class="button">Crafting Chamber <span id="craftingChamber-count">0</span></div>
+                <div id="forge"  class="button">Forge <span id="forge-count">0</span></div>
+                <div id="workshop"  class="button">Workshop <span id="workshop-count">0</span></div>
+                <div id="smelter"  class="button">Smelter <span id="smelter-count">0</span></div>
+                <div id="craftingChamber"  class="button">Crafting Chamber <span id="craftingChamber-count">0</span></div>
 
-                <div id="watchTower" style="display: none;" class="button">Watch Tower <span id="watchTower-count">0</span></div>
+                <div id="watchTower"  class="button">Watch Tower <span id="watchTower-count">0</span></div>
 
-                <div id="shelter" style="display: none;" class="button">Shelter <span id="shelter-count">0</span></div>
-                <div id="medicalCenter" style="display: none;" class="button">Medical Center <span id="medicalCenter-count">0</span></div>
-                <div id="commonRoom" style="display: none;" class="button">Common Room <span id="commonRoom-count">0</span></div>
+                <div id="shelter"  class="button">Shelter <span id="shelter-count">0</span></div>
+                <div id="medicalCenter"  class="button">Medical Center <span id="medicalCenter-count">0</span></div>
+                <div id="commonRoom"  class="button">Common Room <span id="commonRoom-count">0</span></div>
 
-                <div id="solarPanels" style="display: none;" class="button">Solar Panels <span id="solarPanels-count">0</span></div>
-                <div id="radioTower" style="display: none;" class="button">Radio Tower <span id="radioTower-count">0</span></div>
-                <div id="sealedBunker" style="display: none;" class="button">Sealed Bunker <span id="sealedBunker-count">0</span></div>
+                <div id="solarPanels"  class="button">Solar Panels <span id="solarPanels-count">0</span></div>
+                <div id="radioTower"  class="button">Radio Tower <span id="radioTower-count">0</span></div>
+                <div id="sealedBunker"  class="button">Sealed Bunker <span id="sealedBunker-count">0</span></div>
             </div>
 
             <!--Trouver un autre nom-->
-            <p id="settingsTxt">Settings :</p>
+            <p id="settingsTxt">NULL NAME :</p>
             <div id="settingsButtons">
                 <div id="" class="button">NULL</div>
                 <div id="" class="button">NULL</div>
                 <div id="" class="button">NULL</div>
                 <div id="" class="button">NULL</div>
             </div>
+            </div>
+            <div data-legend="Storage" id="storage">
+                <div id="food" class="storageItems">FOOD: <span id="food-count">0</span></div>
+                <div id="water" class="storageItems">WATER: <span id="water-count">0</span></div>
+                <div id="electricity"  class="storageItems">ELECTRICITY: <span id="electricity-count">0</span></div>
+                <div id="survivors"  class="storageItems">SURVIVOR(S): <span id="survivors-count">0</span></div>
+                <div id="stick"  class="storageItems">STICK(S): <span id="stick-count">0</span></div>
+                <div id="wood"  class="storageItems">WOOD: <span id="wood-count">0</span></div>
+                <div id="rock"  class="storageItems">ROCKS(S): <span id="rock-count">0</span></div>
+                <div id="metal"  class="storageItems">METAL: <span id="metal-count">0</span></div>
+            </div>
         </div>
-        <div data-legend="Storage" id="storage">
-            <div id="food" class="storageItems">FOOD: <span id="food-count">0</span></div>
-            <div id="water" class="storageItems">WATER: <span id="water-count">0</span></div>
-            <div id="electricity" style="display: none;" class="storageItems">ELECTRICITY: <span id="electricity-count">0</span></div>
-            <div id="survivors" style="display: none;" class="storageItems">SURVIVOR(S): <span id="survivors-count">0</span></div>
-            <div id="stick" style="display: none;" class="storageItems">STICK(S): <span id="stick-count">0</span></div>
-            <div id="wood" style="display: none;" class="storageItems">WOOD: <span id="wood-count">0</span></div>
-            <div id="rock" style="display: none;" class="storageItems">ROCKS(S): <span id="rock-count">0</span></div>
-            <div id="metal" style="display: none;" class="storageItems">METAL: <span id="metal-count">0</span></div>
-        </div>
+        
+        <diV class="tab-content" id="jobs">
+
+        </diV>
+
         <div id="credits">
             <div style="cursor: pointer;" id="creditsButton">CREDITS</div>
             <div style="cursor: pointer;" id="saveButton">SAVE</div>

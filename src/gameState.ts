@@ -27,7 +27,7 @@ const gameStateInstance: GameState = {
     survivors: 0,
 };
 
-const initialGState : GameState = structuredClone(gameStateInstance);
+const initialGState: GameState = structuredClone(gameStateInstance);
 
 
 // Ressources à diminuer par rapport aux survivants

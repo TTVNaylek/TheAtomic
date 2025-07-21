@@ -1,0 +1,45 @@
+#content{
+    flex-grow: 1;
+    overflow-y: scroll;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#storage{
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    overflow-x: scroll;
+    gap: 5px;
+}
+
+#shopButtons, #settingsButtons{
+    display: flex; 
+    flex-direction: row; 
+    flex-wrap: wrap; 
+    gap: 10px; 
+    justify-content: space-evenly;
+}
+
+.storageItems{
+    width: 110px;
+}
+
+.button{
+    padding: 5px;
+    height: 20px;
+
+    text-align: center;
+    border: solid 2px black;
+}
+
+#content:before  {
+    top: 210px;
+}
+
+#storage:before {
+    bottom: 185px;
+}

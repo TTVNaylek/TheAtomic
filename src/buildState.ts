@@ -55,7 +55,7 @@ const bStateInstance: BuildState = {
     sealedBunker: {nbOfBuild: 0, consumption: ["food", "water", "electricity"], assignedSurvivors: 0},
 };
 
-const initialBState : BuildState = structuredClone(bStateInstance);
+const initialBState: BuildState = structuredClone(bStateInstance);
 
 
 function getProduction(buildState: BuildState) : {[resources in ResourceKey]? : number} {

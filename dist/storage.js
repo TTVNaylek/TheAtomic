@@ -6,17 +6,22 @@ import render from "./render.js";
 function saveGame(gState, bState) {
     localStorage.setItem("gameState", JSON.stringify(gState));
     localStorage.setItem("buildState", JSON.stringify(bState));
+    console.log("SAVED");
 }
 ;
-function loadGame() {
+function loadGame(click) {
     const stateInstance = [stateManager.gameStateInstance, bStateManager.bStateInstance];
     const lStorageKeys = ["gameState", "buildState"];
     for (let i = 0; i < lStorageKeys.length; i++) {
         const savedData = localStorage.getItem(lStorageKeys[i]);
-        if (!savedData)
+        if (!savedData) {
+            if (click)
+                alert("No save data found");
             return;
+        }
         Object.assign(stateInstance[i], JSON.parse(savedData));
     }
+    console.log("LOADED");
     return;
 }
 ;
@@ -32,6 +37,7 @@ function clearGame() {
         console.log(currentDatas[i]);
     }
     render.renderStates(stateManager.gameStateInstance, bStateManager.bStateInstance);
+    console.log("CLEARED");
     return;
 }
 ;

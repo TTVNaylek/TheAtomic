@@ -7,11 +7,20 @@ import store from "./storage.js";
 
 const gState = stateManager.gameStateInstance;
 const bState = bStateManager.bStateInstance;
+// Compteur pour la save
+let i = 0;
 
 setInterval(() => {
     action.gainResourceByBuilds(gState, bState);
     action.consumeResourceBySurvivors(gState);
     render.renderStates(gState, bState);
+
+    // TODO: Améliorer ceci
+    if (i === 30) {
+        store.saveGame(gState, bState);
+        i = 0;
+    }
+    i++;
 }, 1000);
 
 
@@ -32,17 +41,17 @@ document.addEventListener('click', (event) => {
             break;
     
         case "saveButton":
-            console.log("SAVE");
+            console.log("SAVED");
             store.saveGame(gState, bState);
             break;
 
         case "loadButton":
-            console.log("LOAD");
-            store.loadGame();
+            console.log("LOADED");
+            store.loadGame(true);
             break;
         
         case "clearButton":
-            console.log("CLEAR");
+            console.log("CLEARED");
             store.clearGame();
             break;
         

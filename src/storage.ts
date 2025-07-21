@@ -7,18 +7,24 @@ import render from "./render.js";
 function saveGame(gState: GameState, bState: BuildState) : void{
     localStorage.setItem("gameState", JSON.stringify(gState));
     localStorage.setItem("buildState", JSON.stringify(bState));
+    console.log("SAVED");
 };
 
-function loadGame() : void {
+function loadGame(click?: boolean) : void {
     const stateInstance = [stateManager.gameStateInstance, bStateManager.bStateInstance];
     const lStorageKeys = ["gameState", "buildState"];
 
     for (let i = 0; i < lStorageKeys.length; i++) {
         const savedData = localStorage.getItem(lStorageKeys[i]);
 
-        if (!savedData)return;
+        if (!savedData){
+            if (click) alert("No save data found");
+            return;
+        }
         Object.assign(stateInstance[i],JSON.parse(savedData));
     }
+    
+    console.log("LOADED");
     return;
 };
 
@@ -38,10 +44,11 @@ function clearGame() : void{
     }
 
     render.renderStates(stateManager.gameStateInstance, bStateManager.bStateInstance);
+    console.log("CLEARED");
     return;
 };
 
-const resetGameData = (currentData : any, initData: any) : void => {
+const resetGameData = (currentData: any, initData: any) : void => {
     Object.assign(currentData, initData);
 };
 

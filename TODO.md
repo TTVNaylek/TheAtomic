@@ -11,10 +11,10 @@
 - [ ] Show tooltips with resource descriptions  
       ➜ Afficher des infobulles avec la description des ressources
 
-- [ ] Make production update visually reflected in real time  
+- [X] Make production update visually reflected in real time  
       ➜ Rendre la production visible en temps réel dans l'interface
 
-- [ ] Add game saving & loading using localStorage  
+- [X] Add game saving & loading using localStorage  
       ➜ Implémenter la sauvegarde et le chargement via le localStorage
 
 - [ ] Add visual feedback when unlocking something (e.g., fade-in)  
