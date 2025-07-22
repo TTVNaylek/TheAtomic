@@ -1,7 +1,7 @@
 import stylistic from "@stylistic/eslint-plugin";
-import {config} from "typescript-eslint";
-import parser from '@typescript-eslint/parser';
 import typescriptPlugin from '@typescript-eslint/eslint-plugin';
+import parser from '@typescript-eslint/parser';
+import { config } from "typescript-eslint";
 
 
 export default config([
@@ -29,6 +29,10 @@ export default config([
             '@stylistic/quotes': ["off"],
             '@stylistic/semi': ["error", "always"],
             "@stylistic/spaced-comment": ["off"],
+            "@stylistic/space-infix-ops": ["error"],
+            "@stylistic/space-before-blocks": ["error"],
+            "@stylistic/arrow-spacing": ["error"],
+            "@stylistic/keyword-spacing": ["error"],
         }
     }
 ]);

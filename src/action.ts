@@ -10,7 +10,7 @@ function consumeResourceBySurvivors (state: GameState) : void {
     const baseConsumption = 0.25;
     const keys = sManager.consommable;
     for (let i = 0; i < keys.length; i++) {
-        if (state[keys[i]] <= 0){
+        if (state[keys[i]] <= 0) {
             state[keys[i]] = 0;
             continue;
         }
@@ -32,7 +32,7 @@ function gainResourceByBuilds (gameState: GameState, buildState: BuildState) : v
             continue;
         }*/
 
-        if (!prod[typedKey])continue;
+        if (!prod[typedKey]) continue;
 
         gameState[typedKey] = (gameState[typedKey] ?? 0) + prod[typedKey];
     }
@@ -51,7 +51,7 @@ const renderLoot = (arg: LootItem, qty: number) : void => {
     // Quand un item a été découvert afficher dans la box de logs un message
     if (!arg.discovered) {
         render.renderLog("[UNLOCKED] Wow you found " + qty + " " + arg.name + "(s) !");
-    }else{
+    } else {
         render.renderLog("+" + qty + " " + arg.name);
     }
 };
@@ -64,18 +64,18 @@ function searchItems() : void {
     const potentialItem = lManager.lootTable[utils.randomValue(0, lManager.lootTable.length - 1)];
 
     // Vérifie si les prérequis de l'objet (ressources & bâtiments) sont remplis
-    if (!lManager.isLootUnlocked(potentialItem)){
+    if (!lManager.isLootUnlocked(potentialItem)) {
         // Recherhce un nouvel item
         searchItems();
         return;
     }
 
 
-    if (!handleLootDrop(potentialItem))return;
+    if (!handleLootDrop(potentialItem)) return;
     
 
     let quantity = potentialItem.quantity;
-    if (Array.isArray(quantity)){
+    if (Array.isArray(quantity)) {
         quantity = utils.randomValue(quantity[0], quantity[1]);
     }
 
@@ -149,7 +149,7 @@ function buyBuilding(buildName: string) : void {
     // Vérifie si on peut acheter
     for (const key in bCost) {
         const typedKey = key as ResourceKey;
-        if (!bCost[typedKey])break;
+        if (!bCost[typedKey]) break;
     
         // Si ressources < prix
         if (sManager.gameStateInstance[typedKey] < bCost[typedKey]) {
@@ -158,7 +158,7 @@ function buyBuilding(buildName: string) : void {
         }
     }
 
-    if (!canBuy){
+    if (!canBuy) {
         render.renderLog("Not enough resources...");
         console.log("CANT BUY");
         return;
@@ -167,7 +167,7 @@ function buyBuilding(buildName: string) : void {
     // Achat du batiment
     for (const key in bCost) {
         const typedKey = key as ResourceKey;
-        if (!bCost[typedKey])break;
+        if (!bCost[typedKey]) break;
         sManager.gameStateInstance[typedKey] -= bCost[typedKey];
     }
     // Ajout du batiment acheté

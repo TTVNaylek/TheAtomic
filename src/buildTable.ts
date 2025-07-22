@@ -44,7 +44,7 @@ const initialBTable: Build[] = structuredClone(buildTable);
 function getBuildCost(buildName: BuildKey) : {[resources in ResourceKey]? : number} {
     // Récupère le building dans la table
     const build = buildTable.find(b => b.name === buildName);
-    if (!build)return {};
+    if (!build) return {};
 
     // Récupérer le nb de batiments construits
     const nbBuilt = bsManager.bStateInstance[buildName].nbOfBuild;
@@ -62,20 +62,20 @@ function getBuildCost(buildName: BuildKey) : {[resources in ResourceKey]? : numb
 };
 
 // Check si un batiment peut être débloqué
-function checkBuildingRequire() : void{
+function checkBuildingRequire() : void {
     for (let i = 0; i < buildTable.length; i++) {
 
-        if (buildTable[i].discovered)continue;
+        if (buildTable[i].discovered) continue;
 
         const buildReq = buildTable[i].requires?.buildings;
         
         // Check les requis de tous les batiments pour les dévérouiller
         if (buildReq?.some(req => !buildTable.find(item => item.name === req)?.discovered)
-        || buildTable[i].requires?.resources?.some(req => !lManager.lootTable.find(item => item.name === req)?.discovered))continue;
+        || buildTable[i].requires?.resources?.some(req => !lManager.lootTable.find(item => item.name === req)?.discovered)) continue;
 
         
         // Vérifie qu'au minimum 1 batiment requis soit construit pour débloquer le suivant
-        if (buildReq?.some(req => bsManager.bStateInstance[req].nbOfBuild < 1))continue;
+        if (buildReq?.some(req => bsManager.bStateInstance[req].nbOfBuild < 1)) continue;
 
         buildTable[i].discovered = true;
         render.renderLog("[UNLOCKED] You can now build " + buildTable[i].name + " for only " + JSON.stringify(buildTable[i].cost) + " !");

@@ -28,7 +28,7 @@ setInterval(() => {
 document.addEventListener('click', (event) => {
     const clickedElement = event.target as HTMLElement;
 
-    if (!clickedElement.id)return;
+    if (!clickedElement.id) return;
 
     if (bManager.buildTable.find(build => build.name === clickedElement.id)?.name) {
         console.log("BUY BUILD");
