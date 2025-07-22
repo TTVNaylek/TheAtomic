@@ -26,9 +26,7 @@ function gainResourceByBuilds (gameState: GameState, buildState: BuildState) : v
     for (const key in prod) {
         const typedKey = key as ResourceKey;
 
-        if (!prod[typedKey]) {
-            continue;
-        }
+        if (!prod[typedKey])continue;
 
         gameState[typedKey] = (gameState[typedKey] ?? 0) + prod[typedKey];
     }
@@ -63,9 +61,8 @@ function searchItems() : void {
     if (!lManager.isLootUnlocked(potentialItem))return;
 
 
-    if (!handleLootDrop(potentialItem)) {
-        return;
-    }
+    if (!handleLootDrop(potentialItem))return;
+    
 
     let quantity = potentialItem.quantity;
     if (Array.isArray(quantity)){
@@ -78,9 +75,7 @@ function searchItems() : void {
 
     // Passer à true le discovered de l'item
     const item = lManager.lootTable.find(i => i.name === potentialItem.name);
-    if (item){
-        item.discovered = true;
-    }
+    if (item)item.discovered = true;
     
     // Vérifie si on débloque un batiment
     bManager.checkBuildingRequire();

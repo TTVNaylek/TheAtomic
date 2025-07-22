@@ -29,7 +29,6 @@ const gameStateInstance: GameState = {
 
 const initialGState: GameState = structuredClone(gameStateInstance);
 
-
 // Ressources à diminuer par rapport aux survivants
 const consommable = ["food", "water"] as Array<ResourceKey>;
 

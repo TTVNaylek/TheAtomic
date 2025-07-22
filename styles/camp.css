@@ -14,6 +14,7 @@
     flex-wrap: wrap;
     overflow-x: scroll;
     gap: 5px;
+    /*position: relative;*/
 }
 
 #shopButtons, #settingsButtons{
@@ -43,5 +44,8 @@
 }
 
 #storage:before {
+    /*top: -10px;
+    left: 10px;
+    z-index: 9999;*/
     bottom: 185px;
 }

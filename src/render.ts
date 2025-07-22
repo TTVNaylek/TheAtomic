@@ -6,7 +6,7 @@ import bManager from "./buildTable.js";
 const MAX_LOGS_LINES = 6;
 const tabsState = {jobsVisible: false};
 
-const renderLog = (message: string) : void => {
+const renderLog = (message: string, color?: string) : void => {
     const logBox = document.getElementById("log");
     const logMessage = document.createElement("div");
     logMessage.classList.add("log-message");
@@ -22,6 +22,8 @@ const renderLog = (message: string) : void => {
     }
     
     logBox.appendChild(logMessage);
+    //if (color) logBox.style.color = color;
+    
     logBox.scrollTop = logBox.scrollHeight;
 };
 

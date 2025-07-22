@@ -1,9 +1,10 @@
 import {GameState, ResourceKey} from "./gameState.js";
+//import BuildDatas from "./datas/BuildState.json";
 
 type BuildInstance = {
     nbOfBuild: number;
-    production?: {[resource in keyof GameState]? : number};
-    consumption?: Array<keyof GameState>;
+    production?: {[resource in ResourceKey]? : number};
+    consumption?: Array<ResourceKey>;
     assignedSurvivors?: number;
 };
 
@@ -32,6 +33,8 @@ interface BuildState {
 
 type BuildKey = keyof BuildState;
 
+//const bStateInstance: BuildState = BuildDatas;
+
 const bStateInstance: BuildState = {
     lumberHut: {nbOfBuild: 0, production: {stick: 1, wood: 1}, assignedSurvivors: 0},
     stoneQuarry: {nbOfBuild: 0, production: {rock: 1}, consumption: ["wood"], assignedSurvivors: 0},
@@ -47,11 +50,11 @@ const bStateInstance: BuildState = {
     watchTower: {nbOfBuild: 0, assignedSurvivors: 0},
 
     shelter: {nbOfBuild: 0, consumption: ["food", "water", "electricity"]},
-    medicalCenter: {nbOfBuild: 0, consumption: ["food", "water", "electricity"], assignedSurvivors: 0,},
+    medicalCenter: {nbOfBuild: 0, consumption: ["food", "water", "electricity"], assignedSurvivors: 0},
     commonRoom: {nbOfBuild: 0, consumption: ["electricity"]},
 
     solarPanels: {nbOfBuild: 0, production: {electricity: 1}},
-    radioTower: {nbOfBuild: 0, consumption: ["electricity"], assignedSurvivors: 0,},
+    radioTower: {nbOfBuild: 0, consumption: ["electricity"], assignedSurvivors: 0},
     sealedBunker: {nbOfBuild: 0, consumption: ["food", "water", "electricity"], assignedSurvivors: 0},
 };
 
