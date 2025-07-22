@@ -1,14 +1,14 @@
-import utils from "./utils.js";
-import stateManager, {GameState, ResourceKey} from "./gameState.js";
-import bStateManager, {BuildKey, BuildState} from "./buildState.js";
-import lManager, {LootItem} from "./lootTable.js";
+import bsManager, {BuildKey, BuildState} from "./buildState.js";
 import bManager from "./buildTable.js";
+import sManager, {GameState, ResourceKey} from "./gameState.js";
+import lManager, {LootItem} from "./lootTable.js";
 import render from "./render.js";
+import utils from "./utils.js";
 
 // Consomme les ressources food et water en fonction des survivants
 function consumeResourceBySurvivors (state: GameState) : void {
     const baseConsumption = 0.25;
-    const keys = stateManager.consommable;
+    const keys = sManager.consommable;
     for (let i = 0; i < keys.length; i++) {
         if (state[keys[i]] <= 0){
             state[keys[i]] = 0;
@@ -21,10 +21,16 @@ function consumeResourceBySurvivors (state: GameState) : void {
 
 // Gagner une resource selon le batiment et son niveau
 function gainResourceByBuilds (gameState: GameState, buildState: BuildState) : void {
-    const prod = bStateManager.getProduction(buildState);
+    const prod = bsManager.getProduction(buildState);
+    const cap = bsManager.getCapacity(buildState);
 
     for (const key in prod) {
         const typedKey = key as ResourceKey;
+
+        // Ne produit pas si la capacité est atteinte
+        /* if (!cap[typedKey] || gameState[typedKey] >= cap[typedKey]) {
+            continue;
+        }*/
 
         if (!prod[typedKey])continue;
 
@@ -52,13 +58,17 @@ const renderLoot = (arg: LootItem, qty: number) : void => {
 
 // Rechercher 1 item
 function searchItems() : void {
-    const gState = stateManager.gameStateInstance;
+    const gState = sManager.gameStateInstance;
 
     // Débloquer un seul item par recherche
     const potentialItem = lManager.lootTable[utils.randomValue(0, lManager.lootTable.length - 1)];
 
     // Vérifie si les prérequis de l'objet (ressources & bâtiments) sont remplis
-    if (!lManager.isLootUnlocked(potentialItem))return;
+    if (!lManager.isLootUnlocked(potentialItem)){
+        // Recherhce un nouvel item
+        searchItems();
+        return;
+    }
 
 
     if (!handleLootDrop(potentialItem))return;
@@ -142,7 +152,7 @@ function buyBuilding(buildName: string) : void {
         if (!bCost[typedKey])break;
     
         // Si ressources < prix
-        if (stateManager.gameStateInstance[typedKey] < bCost[typedKey]) {
+        if (sManager.gameStateInstance[typedKey] < bCost[typedKey]) {
             canBuy = false;
             break;
         }
@@ -158,11 +168,11 @@ function buyBuilding(buildName: string) : void {
     for (const key in bCost) {
         const typedKey = key as ResourceKey;
         if (!bCost[typedKey])break;
-        stateManager.gameStateInstance[typedKey] -= bCost[typedKey];
+        sManager.gameStateInstance[typedKey] -= bCost[typedKey];
     }
     // Ajout du batiment acheté
-    bStateManager.bStateInstance[build].nbOfBuild += 1;
-    render.renderLog("Built a new " + bStateManager.bStateInstance[build]);
+    bsManager.bStateInstance[build].nbOfBuild += 1;
+    render.renderLog("Built a new " + bsManager.bStateInstance[build]);
 };
 
 export default {

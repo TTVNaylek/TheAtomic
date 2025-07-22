@@ -1,19 +1,21 @@
-import stateManager, {GameState} from "./gameState.js";
-import bStateManager, {BuildState} from "./buildState.js";
-import sManager from "./lootTable.js";
+import sManager from "./gameState.js";
+import bSManager from "./buildState.js";
+import sSManager from "./survivorsState.js";
+import lManager from "./lootTable.js";
 import bManager from "./buildTable.js";
 import render from "./render.js";
 
-function saveGame(gState: GameState, bState: BuildState) : void{
-    localStorage.setItem("gameState", JSON.stringify(gState));
-    localStorage.setItem("buildState", JSON.stringify(bState));
+const stateInstance = [sManager.gameStateInstance, bSManager.bStateInstance, sSManager.survivorStateInstance];
+const lStorageKeys = ["gameState", "buildState", "survivorState"];
+
+function saveGame() : void{
+    for (let i = 0; i < stateInstance.length; i++) {
+        localStorage.setItem(lStorageKeys[i], JSON.stringify(stateInstance[i]));
+    }
     console.log("SAVED");
 };
 
 function loadGame(click?: boolean) : void {
-    const stateInstance = [stateManager.gameStateInstance, bStateManager.bStateInstance];
-    const lStorageKeys = ["gameState", "buildState"];
-
     for (let i = 0; i < lStorageKeys.length; i++) {
         const savedData = localStorage.getItem(lStorageKeys[i]);
 
@@ -35,15 +37,15 @@ function clearGame() : void{
 
     localStorage.clear();
 
-    const currentDatas = [stateManager.gameStateInstance, bStateManager.bStateInstance, sManager.lootTable, bManager.buildTable];
-    const initDatas = [stateManager.initialGState, bStateManager.initialBState, sManager.initialLTable, bManager.initialBTable];
+    const currentDatas = [sManager.gameStateInstance, bSManager.bStateInstance, lManager.lootTable, bManager.buildTable, sSManager.survivorStateInstance];
+    const initDatas = [sManager.initialGState, bSManager.initialBState, lManager.initialLTable, bManager.initialBTable, sSManager.initialSState];
 
     for (let i = 0; i < currentDatas.length; i++) {
         resetGameData(currentDatas[i], initDatas[i]);
         console.log(currentDatas[i]);
     }
 
-    render.renderStates(stateManager.gameStateInstance, bStateManager.bStateInstance);
+    render.renderStates(sManager.gameStateInstance, bSManager.bStateInstance);
     console.log("CLEARED");
     return;
 };

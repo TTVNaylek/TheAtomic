@@ -1,34 +1,51 @@
 import {BuildKey} from "./buildState.js";
-import stateManager, {GameState, ResourceKey} from "./gameState.js";
+import bManager from "./buildTable.js";
+import sManager from "./gameState.js";
 import render from "./render.js";
-import utils from "./utils.js";
-import names from "./datas/SurvivorNames.json";
+//import names from "./datas/SurvivorNames.json";
 
-interface Survivor {
+interface SurvivorState {
     id: string;
     name: string;
     assignedTo?: null | BuildKey;
 };
 
-type SurvivorsKey = keyof Survivor;
+type SurvivorsKey = keyof SurvivorState;
 
-const survivorState: Survivor[] = [];
+const survivorStateInstance: SurvivorState[] = [];
+
+const initialSState = structuredClone(survivorStateInstance);
 
 function addSurvivor() : void {
 
     // Si capacité survivor le permet on ajoute un survivant
     // Sinon return
+    if (bManager.getSurvivorCapacity() === sManager.gameStateInstance.survivors) {
+        console.log("Vous n'avez plus assez de place...");
+        render.renderLog("There is no place anymore for survivors..");
+        return;
+    }
+    
 
-    const survivor = names[utils.randomValue(0, names.length)].name;
+    //const survivor = names[utils.randomValue(0, names.length)].name;
 
-    survivorState.push({id: Date.now().toString(), name: survivor});
+    //survivorStateInstance.push({id: Date.now().toString(), name: survivor});
     // Ou
-    survivorState.push({id: Date.now().toString(), name: ""});
+    survivorStateInstance.push({id: Date.now().toString(), name: ""});
 
-    stateManager.gameStateInstance.survivors = survivorState.length;
+    sManager.gameStateInstance.survivors = survivorStateInstance.length;
     // Ou
-    stateManager.gameStateInstance.survivors += 1;
+    sManager.gameStateInstance.survivors += 1;
 
-    render.renderLog(survivor + " has arrived in the camp !");
+    //render.renderLog(survivor + " has arrived in the camp !");
     return;
 }
+
+export default {
+    survivorStateInstance,
+    initialSState,
+};
+
+export {
+    SurvivorsKey, SurvivorState
+};

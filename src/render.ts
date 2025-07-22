@@ -1,7 +1,7 @@
-import {GameState, ResourceKey} from "./gameState.js";
-import {BuildKey, BuildState} from "./buildState.js";
 import lManager from "./lootTable.js";
 import bManager from "./buildTable.js";
+import {GameState, ResourceKey} from "./gameState.js";
+import {BuildKey, BuildState} from "./buildState.js";
 
 const MAX_LOGS_LINES = 6;
 const tabsState = {jobsVisible: false};

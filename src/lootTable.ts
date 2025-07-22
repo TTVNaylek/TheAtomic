@@ -1,6 +1,6 @@
+import bManager from "./buildTable.js";
 import {BuildKey} from "./buildState.js";
 import {ResourceKey} from "./gameState.js";
-import bManager from "./buildTable.js";
 
 export type LootItem = {
     name: ResourceKey;

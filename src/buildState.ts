@@ -1,4 +1,4 @@
-import {GameState, ResourceKey} from "./gameState.js";
+import {ResourceKey} from "./gameState.js";
 //import BuildDatas from "./datas/BuildState.json";
 
 type BuildInstance = {
@@ -6,6 +6,7 @@ type BuildInstance = {
     production?: {[resource in ResourceKey]? : number};
     consumption?: Array<ResourceKey>;
     assignedSurvivors?: number;
+    capacity?: {[resource in ResourceKey]? : number};
 };
 
 interface BuildState {
@@ -35,6 +36,7 @@ type BuildKey = keyof BuildState;
 
 //const bStateInstance: BuildState = BuildDatas;
 
+// AJOUTER UNE CAPACITE AU BATIMENTS
 const bStateInstance: BuildState = {
     lumberHut: {nbOfBuild: 0, production: {stick: 1, wood: 1}, assignedSurvivors: 0},
     stoneQuarry: {nbOfBuild: 0, production: {rock: 1}, consumption: ["wood"], assignedSurvivors: 0},
@@ -68,6 +70,7 @@ function getProduction(buildState: BuildState) : {[resources in ResourceKey]? : 
     for (let i = 0; i < buildKeys.length; i++) {
         const nbBuilt = buildState[buildKeys[i]].nbOfBuild;
         const prodTable = buildState[buildKeys[i]].production;
+
  
         if (nbBuilt < 1 || !prodTable) {
             continue;
@@ -91,13 +94,40 @@ function getProduction(buildState: BuildState) : {[resources in ResourceKey]? : 
     return dynProd;
 };
 
+function getCapacity(buildState: BuildState) {
+    const buildKeys = Object.keys(buildState) as Array<BuildKey>;
+    const dynCap: {[resource in ResourceKey]?: number} = {};
+  
+    for (let i = 0; i < buildKeys.length; i++) {
+        const nbBuilt = buildState[buildKeys[i]].nbOfBuild;
+        const capTable = buildState[buildKeys[i]].capacity;
+
+ 
+        if (nbBuilt < 1 || !capTable) {
+            continue;
+        }
+
+        // Récupère chaque ressources de prodTable dans ressource
+        for (const ressource in capTable) {
+            const typedResource = ressource as ResourceKey;
+            const capacity = capTable[typedResource];
+            if (!capacity) {
+                continue;
+            }
+
+            dynCap[typedResource] = (dynCap[typedResource] ?? 0) + capacity * nbBuilt;
+        }
+    }
+    return dynCap;
+};
+
 export default {
     bStateInstance,
     getProduction,
     initialBState,
+    getCapacity,
 };
 
 export {
-    BuildState,
-    BuildKey
+    BuildKey, BuildState
 };

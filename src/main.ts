@@ -1,12 +1,12 @@
-import stateManager from "./gameState.js";
-import bStateManager from "./buildState.js";
+import sManager from "./gameState.js";
+import bSManager from "./buildState.js";
+import bManager from "./buildTable.js";
 import render from "./render.js";
 import action from "./action.js";
-import bManager from "./buildTable.js";
 import store from "./storage.js";
 
-const gState = stateManager.gameStateInstance;
-const bState = bStateManager.bStateInstance;
+const gState = sManager.gameStateInstance;
+const bState = bSManager.bStateInstance;
 // Compteur pour la save
 let i = 0;
 
@@ -17,7 +17,7 @@ setInterval(() => {
 
     // TODO: Améliorer ceci (Auto-save)
     if (i === 30) {
-        store.saveGame(gState, bState);
+        store.saveGame();
         i = 0;
     }
     i++;
@@ -42,7 +42,7 @@ document.addEventListener('click', (event) => {
     
         case "saveButton":
             console.log("SAVED");
-            store.saveGame(gState, bState);
+            store.saveGame();
             break;
 
         case "loadButton":

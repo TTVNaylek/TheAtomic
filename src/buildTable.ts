@@ -1,10 +1,10 @@
-import bStateManager, {BuildKey, BuildState} from "./buildState.js";
+import bsManager, {BuildKey} from "./buildState.js";
 import {ResourceKey} from "./gameState.js";
-import lootManager, {LootItem} from "./lootTable.js";
+import lManager from "./lootTable.js";
 import render from "./render.js";
 
 type Build = {
-    name: keyof BuildState;
+    name: BuildKey;
     // Prix sous forme {ressource: prix}
     cost: {[resource in ResourceKey]? : number};
     discovered: boolean;
@@ -47,7 +47,7 @@ function getBuildCost(buildName: BuildKey) : {[resources in ResourceKey]? : numb
     if (!build)return {};
 
     // Récupérer le nb de batiments construits
-    const nbBuilt = bStateManager.bStateInstance[buildName].nbOfBuild;
+    const nbBuilt = bsManager.bStateInstance[buildName].nbOfBuild;
 
     const dynCost: {[resource in ResourceKey]?: number} = {};
     // Pour chaques ressources dans build.cost
@@ -71,20 +71,37 @@ function checkBuildingRequire() : void{
         
         // Check les requis de tous les batiments pour les dévérouiller
         if (buildReq?.some(req => !buildTable.find(item => item.name === req)?.discovered)
-        || buildTable[i].requires?.resources?.some(req => !lootManager.lootTable.find(item => item.name === req)?.discovered))continue;
+        || buildTable[i].requires?.resources?.some(req => !lManager.lootTable.find(item => item.name === req)?.discovered))continue;
 
         
         // Vérifie qu'au minimum 1 batiment requis soit construit pour débloquer le suivant
-        if (buildReq?.some(req => bStateManager.bStateInstance[req].nbOfBuild < 1))continue;
+        if (buildReq?.some(req => bsManager.bStateInstance[req].nbOfBuild < 1))continue;
 
         buildTable[i].discovered = true;
         render.renderLog("[UNLOCKED] You can now build " + buildTable[i].name + " for only " + JSON.stringify(buildTable[i].cost) + " !");
     }
 };
 
+// Retourne la capacité total de survivants de tous les batiments
+function getSurvivorCapacity() : number {
+    let totalCap = 0;
+
+    // Parcourt tous les batiments
+    for (let i = 0; i < buildTable.length; i++) {
+        const building = buildTable[i];
+        // Check si ce n'est pas undefined, null ou = 0
+        if (!building || !building.survivorCap) continue;
+
+        totalCap += building.survivorCap;
+    }
+
+    return totalCap;
+};
+
 export default {
+    initialBTable,
     buildTable,
     getBuildCost,
     checkBuildingRequire,
-    initialBTable,
+    getSurvivorCapacity,
 };
