@@ -1,5 +1,5 @@
 import {ResourceKey} from "./gameState.js";
-//import BuildDatas from "./datas/BuildState.json";
+import utils from "./utils.js";
 
 type BuildInstance = {
     nbOfBuild: number;
@@ -36,8 +36,10 @@ type BuildKey = keyof BuildState;
 
 //const bStateInstance: BuildState = BuildDatas;
 
+const bStateInstance: BuildState = await utils.getJsonData<BuildState>("./public/datas/BuildState.json");
+
 // AJOUTER UNE CAPACITE AU BATIMENTS
-const bStateInstance: BuildState = {
+/*const bStateInstance: BuildState = {
     lumberHut: {nbOfBuild: 0, production: {stick: 1, wood: 1}, assignedSurvivors: 0},
     stoneQuarry: {nbOfBuild: 0, production: {rock: 1}, consumption: ["wood"], assignedSurvivors: 0},
     scrapYard: {nbOfBuild: 0},
@@ -58,7 +60,7 @@ const bStateInstance: BuildState = {
     solarPanels: {nbOfBuild: 0, production: {electricity: 1}},
     radioTower: {nbOfBuild: 0, consumption: ["electricity"], assignedSurvivors: 0},
     sealedBunker: {nbOfBuild: 0, consumption: ["food", "water", "electricity"], assignedSurvivors: 0},
-};
+};*/
 
 const initialBState: BuildState = structuredClone(bStateInstance);
 

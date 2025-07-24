@@ -17,7 +17,7 @@ const renderLog = (message: string, color?: string) : void => {
         return;
     }
 
-    while(logBox.children.length > MAX_LOGS_LINES){
+    while (logBox.children.length > MAX_LOGS_LINES) {
         logBox.removeChild(logBox.firstChild!);
     }
     
@@ -39,7 +39,7 @@ const renderTabs = (gameState: GameState) : void => {
         if (element) {
             element.style.display = "unset";
             tabsState.jobsVisible = true;
-        }else{
+        } else {
             warnMissingElement("jobs-nav");
         }
     }

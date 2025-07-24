@@ -2,6 +2,7 @@ import bsManager, {BuildKey} from "./buildState.js";
 import {ResourceKey} from "./gameState.js";
 import lManager from "./lootTable.js";
 import render from "./render.js";
+import utils from "./utils.js";
 
 type Build = {
     name: BuildKey;
@@ -15,7 +16,9 @@ type Build = {
     survivorCap?: number;
 };
 
-const buildTable: Build[] = [
+const buildTable: Build[] = await utils.getJsonData<Build[]>("./public/datas/BuildTable.json");
+
+/*const buildTable: Build[] = [
     {name: "lumberHut", cost: {"stick": 80}, discovered: false, requires: {resources: ["stick"]}},
     {name: "stoneQuarry", cost: {"wood": 120}, discovered: false, requires: {buildings: ["lumberHut"], resources: ["wood", "stick"]}},
     {name: "smelter", cost: {"rock": 180, "stick": 50}, discovered: false, requires: {buildings: ["stoneQuarry"], resources: ["rock", "wood"]}},
@@ -36,7 +39,7 @@ const buildTable: Build[] = [
     {name: "solarPanels", cost: {"metal": 220}, discovered: false, requires: {buildings: ["forge"], resources: ["metal"]}},
     {name: "radioTower", cost: {"metal": 260, "rock": 130}, discovered: false, requires: {buildings: ["solarPanels"], resources: ["metal", "rock"]}},
     {name: "sealedBunker", cost: {"metal": 450, "rock": 280, "wood": 280}, discovered: false, requires: {buildings: ["radioTower", "medicalCenter"], resources: ["metal", "rock", "wood"]}},
-];
+];*/
 
 const initialBTable: Build[] = structuredClone(buildTable);
 
