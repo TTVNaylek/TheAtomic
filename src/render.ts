@@ -1,7 +1,7 @@
-import lManager from "./lootTable.js";
+import bSManager, {BuildKey} from "./buildState.js";
 import bManager from "./buildTable.js";
-import {GameState, ResourceKey} from "./gameState.js";
-import {BuildKey, BuildState} from "./buildState.js";
+import sManager, {ResourceKey} from "./gameState.js";
+import lManager from "./lootTable.js";
 
 const MAX_LOGS_LINES = 6;
 const tabsState = {jobsVisible: false};
@@ -27,14 +27,22 @@ const renderLog = (message: string, color?: string) : void => {
     logBox.scrollTop = logBox.scrollHeight;
 };
 
-const renderStates = (gameState: GameState, buildState: BuildState) : void => {
-    renderTabs(gameState);
-    renderResources(gameState);
-    renderBuildings(buildState);
+const renderStates = () : void => {
+    renderTabs();
+    renderResources();
+    renderBuildings();
+
+    const id = "survivors-cap";
+    const elementCap = document.getElementById(id);
+    if (!elementCap) {
+        warnMissingElement(id);
+        return;
+    }
+    elementCap.textContent = "/" + bManager.getSurvivorCapacity();
 };
 
-const renderTabs = (gameState: GameState) : void => {
-    if (gameState.survivors >= 1 && tabsState.jobsVisible === false) {
+const renderTabs = () : void => {
+    if (sManager.gameStateInstance.survivors >= 1 && tabsState.jobsVisible === false) {
         const element = document.getElementById("jobs-nav") as HTMLElement;
         if (element) {
             element.style.display = "unset";
@@ -45,11 +53,11 @@ const renderTabs = (gameState: GameState) : void => {
     }
 };
 
-const renderResources = (gameState: GameState) : void => {
+const renderResources = () : void => {
     // Récupère la list des items découverts
     const discoveredItems = new Set(lManager.lootTable.filter(element => element.discovered).map(element => element.name));
     
-    for (const ressource of Object.keys(gameState) as Array<ResourceKey>) {
+    for (const ressource of Object.keys(sManager.gameStateInstance) as Array<ResourceKey>) {
         if (/*!gameState[ressource] ||*/
             !discoveredItems.has(ressource)) {
             // Hide element if not discovered (prevent from reset function)
@@ -57,15 +65,15 @@ const renderResources = (gameState: GameState) : void => {
             if (element) element.style.display = "none";
             continue;
         }
-        updateDisplay(ressource, gameState[ressource]);
+        updateDisplay(ressource, sManager.gameStateInstance[ressource]);
     }
 };
 
-const renderBuildings = (buildState: BuildState) : void => {
+const renderBuildings = () : void => {
     // Récupère la list des builds découverts
     const discoveredBuilds = new Set(bManager.buildTable.filter(element => element.discovered).map(element => element.name));
 
-    for (const build of Object.keys(buildState) as Array<BuildKey>) {
+    for (const build of Object.keys(bSManager.bStateInstance) as Array<BuildKey>) {
         if (/*!buildState[build].nbOfBuild ||*/
             !discoveredBuilds.has(build)) {
             // Hide element if not discovered (prevent from reset function)
@@ -73,7 +81,7 @@ const renderBuildings = (buildState: BuildState) : void => {
             if (element) element.style.display = "none";
             continue;
         }
-        updateDisplay(build, buildState[build].nbOfBuild);
+        updateDisplay(build, bSManager.bStateInstance[build].nbOfBuild);
     }
 };
 

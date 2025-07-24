@@ -95,7 +95,9 @@ function getSurvivorCapacity() : number {
         // Check si ce n'est pas undefined, null ou = 0
         if (!building || !building.survivorCap) continue;
 
-        totalCap += building.survivorCap;
+        const nbOfBuild = bsManager.bStateInstance[building.name].nbOfBuild;
+
+        totalCap += building.survivorCap * nbOfBuild;
     }
 
     return totalCap;

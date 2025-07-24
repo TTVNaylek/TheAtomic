@@ -38,10 +38,17 @@ async function addSurvivor() : Promise<void> {
     return;
 }
 
+function removeSurvivor() : void {
+    if (!survivorStateInstance.length) return;
+    survivorStateInstance.splice(utils.randomValue(0, survivorStateInstance.length), 1);
+    render.renderLog("A survivor has disappear..");
+}
+
 export default {
     survivorStateInstance,
     initialSState,
     addSurvivor,
+    removeSurvivor,
 };
 
 export {

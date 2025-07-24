@@ -34,8 +34,6 @@ interface BuildState {
 
 type BuildKey = keyof BuildState;
 
-//const bStateInstance: BuildState = BuildDatas;
-
 const bStateInstance: BuildState = await utils.getJsonData<BuildState>("./public/datas/BuildState.json");
 
 // AJOUTER UNE CAPACITE AU BATIMENTS
@@ -64,14 +62,13 @@ const bStateInstance: BuildState = await utils.getJsonData<BuildState>("./public
 
 const initialBState: BuildState = structuredClone(bStateInstance);
 
-
-function getProduction(buildState: BuildState) : {[resources in ResourceKey]? : number} {
-    const buildKeys = Object.keys(buildState) as Array<BuildKey>;
+function getProduction() : {[resources in ResourceKey]? : number} {
+    const buildKeys = Object.keys(bStateInstance) as Array<BuildKey>;
     const dynProd: {[resource in ResourceKey]?: number} = {};
   
     for (let i = 0; i < buildKeys.length; i++) {
-        const nbBuilt = buildState[buildKeys[i]].nbOfBuild;
-        const prodTable = buildState[buildKeys[i]].production;
+        const nbBuilt = bStateInstance[buildKeys[i]].nbOfBuild;
+        const prodTable = bStateInstance[buildKeys[i]].production;
 
  
         if (nbBuilt < 1 || !prodTable) {
@@ -88,7 +85,7 @@ function getProduction(buildState: BuildState) : {[resources in ResourceKey]? : 
 
             // Survivant assigné = boost la production
             // + 10% par survivants assignés
-            const survivors = buildState[buildKeys[i]].assignedSurvivors ?? 0;
+            const survivors = bStateInstance[buildKeys[i]].assignedSurvivors ?? 0;
             const multiplier = (1 + (0.1 * survivors));
             dynProd[typedResource] = (dynProd[typedResource] ?? 0) + production * nbBuilt * multiplier;
         }
@@ -96,13 +93,13 @@ function getProduction(buildState: BuildState) : {[resources in ResourceKey]? : 
     return dynProd;
 };
 
-function getCapacity(buildState: BuildState) {
-    const buildKeys = Object.keys(buildState) as Array<BuildKey>;
+function getCapacity() {
+    const buildKeys = Object.keys(bStateInstance) as Array<BuildKey>;
     const dynCap: {[resource in ResourceKey]?: number} = {};
   
     for (let i = 0; i < buildKeys.length; i++) {
-        const nbBuilt = buildState[buildKeys[i]].nbOfBuild;
-        const capTable = buildState[buildKeys[i]].capacity;
+        const nbBuilt = bStateInstance[buildKeys[i]].nbOfBuild;
+        const capTable = bStateInstance[buildKeys[i]].capacity;
 
  
         if (nbBuilt < 1 || !capTable) {

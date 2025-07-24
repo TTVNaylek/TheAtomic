@@ -1,19 +1,15 @@
-import sManager from "./gameState.js";
-import bSManager from "./buildState.js";
+import action from "./action.js";
 import bManager from "./buildTable.js";
 import render from "./render.js";
-import action from "./action.js";
 import store from "./storage.js";
 
-const gState = sManager.gameStateInstance;
-const bState = bSManager.bStateInstance;
 // Compteur pour la save
 let i = 0;
 
 setInterval(() => {
-    action.gainResourceByBuilds(gState, bState);
-    action.consumeResourceBySurvivors(gState);
-    render.renderStates(gState, bState);
+    action.gainResourceByBuilds();
+    action.consumeResourceBySurvivors();
+    render.renderStates();
 
     // TODO: Améliorer ceci (Auto-save)
     if (i === 30) {
@@ -22,7 +18,6 @@ setInterval(() => {
     }
     i++;
 }, 1000);
-
 
 // Interaction with buttons
 document.addEventListener('click', (event) => {
@@ -41,17 +36,14 @@ document.addEventListener('click', (event) => {
             break;
     
         case "saveButton":
-            console.log("SAVED");
             store.saveGame();
             break;
 
         case "loadButton":
-            console.log("LOADED");
             store.loadGame(true);
             break;
         
         case "clearButton":
-            console.log("CLEARED");
             store.clearGame();
             break;
         

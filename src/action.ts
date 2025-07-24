@@ -1,28 +1,38 @@
-import bsManager, {BuildKey, BuildState} from "./buildState.js";
+import bsManager, {BuildKey} from "./buildState.js";
 import bManager from "./buildTable.js";
-import sManager, {GameState, ResourceKey} from "./gameState.js";
+import sManager, {ResourceKey} from "./gameState.js";
 import lManager, {LootItem} from "./lootTable.js";
 import render from "./render.js";
+import sSManager from "./survivorsState.js";
 import utils from "./utils.js";
 
 // Consomme les ressources food et water en fonction des survivants
-function consumeResourceBySurvivors (state: GameState) : void {
+function consumeResourceBySurvivors () : void {
     const baseConsumption = 0.25;
     const keys = sManager.consommable;
     for (let i = 0; i < keys.length; i++) {
-        if (state[keys[i]] <= 0) {
-            state[keys[i]] = 0;
+        if (sManager.gameStateInstance[keys[i]] <= 0) {
+            sManager.gameStateInstance[keys[i]] = 0;
             continue;
         }
 
-        state[keys[i]] -= baseConsumption * (state.survivors + 1);
+        // Plus tard créer une fonction qui check tous les besoins des survivants pour les remove si besoin
+        const consNeeded = baseConsumption * (sManager.gameStateInstance.survivors + 1);
+
+        // Quand les deux ressources manquent = mort d'un survivant
+        if (sManager.gameStateInstance["food"] < consNeeded && sManager.gameStateInstance["water"] < consNeeded) {
+            sSManager.removeSurvivor();
+            continue;
+        }
+
+        sManager.gameStateInstance[keys[i]] -= consNeeded;
     }
 };
 
 // Gagner une resource selon le batiment et son niveau
-function gainResourceByBuilds (gameState: GameState, buildState: BuildState) : void {
-    const prod = bsManager.getProduction(buildState);
-    const cap = bsManager.getCapacity(buildState);
+function gainResourceByBuilds () : void {
+    const prod = bsManager.getProduction();
+    const cap = bsManager.getCapacity();
 
     for (const key in prod) {
         const typedKey = key as ResourceKey;
@@ -33,8 +43,7 @@ function gainResourceByBuilds (gameState: GameState, buildState: BuildState) : v
         }*/
 
         if (!prod[typedKey]) continue;
-
-        gameState[typedKey] = (gameState[typedKey] ?? 0) + prod[typedKey];
+        sManager.gameStateInstance[typedKey] = (sManager.gameStateInstance[typedKey] ?? 0) + prod[typedKey];
     }
 };
 
