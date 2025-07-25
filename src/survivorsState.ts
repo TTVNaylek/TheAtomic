@@ -1,5 +1,5 @@
+import bManager from "./buildRegistry.js";
 import {BuildKey} from "./buildState.js";
-import bManager from "./buildTable.js";
 import sManager from "./gameState.js";
 import render from "./render.js";
 import utils from "./utils.js";

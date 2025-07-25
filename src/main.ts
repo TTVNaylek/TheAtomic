@@ -1,5 +1,6 @@
 import action from "./action.js";
-import bManager from "./buildTable.js";
+import bManager from "./buildRegistry.js";
+import {BuildKey} from "./buildState.js";
 import render from "./render.js";
 import store from "./storage.js";
 
@@ -25,10 +26,8 @@ document.addEventListener('click', (event) => {
 
     if (!clickedElement.id) return;
 
-    if (bManager.buildTable.find(build => build.name === clickedElement.id)?.name) {
-        console.log("BUY BUILD");
-        action.buyBuilding(clickedElement.id);
-    }
+    const id = clickedElement.id;
+    if (id in bManager.buildRegistry) action.buyBuilding(id as BuildKey);
 
     switch (clickedElement.id) {
         case "searchButton":

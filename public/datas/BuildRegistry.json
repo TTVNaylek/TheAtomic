@@ -1,0 +1,336 @@
+{
+    "lumberHut": {
+        "name": "lumberHut",
+        "cost": {
+            "stick": 80
+        },
+        "production": {
+            "stick": 1,
+            "wood": 1
+        },
+        "requires": {
+            "resources": [
+                "stick"
+            ]
+        },
+        "discovered": false
+    },
+    "stoneQuarry": {
+        "name": "stoneQuarry",
+        "cost": {
+            "wood": 120
+        },
+        "production": {
+            "rock": 1
+        },
+        "consumption": [
+            "wood"
+        ],
+        "requires": {
+            "buildings": [
+                "lumberHut"
+            ],
+            "resources": [
+                "wood",
+                "stick"
+            ]
+        },
+        "discovered": false
+    },
+    "scrapYard": {
+        "name": "scrapYard",
+        "cost": {
+            "wood": 180,
+            "rock": 80
+        },
+        "requires": {
+            "buildings": [
+                "stoneQuarry"
+            ],
+            "resources": [
+                "stick",
+                "rock"
+            ]
+        },
+        "discovered": false
+    },
+    "waterCollector": {
+        "name": "waterCollector",
+        "cost": {
+            "wood": 90,
+            "metal": 40
+        },
+        "production": {
+            "water": 1
+        },
+        "requires": {
+            "buildings": [
+                "smelter"
+            ],
+            "resources": [
+                "rock",
+                "metal"
+            ]
+        },
+        "discovered": false
+    },
+    "basicGarden": {
+        "name": "basicGarden",
+        "cost": {
+            "wood": 100,
+            "food": 40,
+            "water": 40
+        },
+        "production": {
+            "food": 1
+        },
+        "consumption": [
+            "water",
+            "food"
+        ],
+        "requires": {
+            "buildings": [
+                "waterCollector"
+            ],
+            "resources": [
+                "food",
+                "water"
+            ]
+        },
+        "discovered": false
+    },
+    "forge": {
+        "name": "forge",
+        "cost": {
+            "metal": 130,
+            "rock": 40
+        },
+        "production": {
+            "metal": 1
+        },
+        "consumption": [
+            "wood",
+            "metal"
+        ],
+        "requires": {
+            "buildings": [
+                "smelter"
+            ],
+            "resources": [
+                "metal",
+                "stick"
+            ]
+        },
+        "discovered": false
+    },
+    "workshop": {
+        "name": "workshop",
+        "cost": {
+            "metal": 130,
+            "wood": 80
+        },
+        "consumption": [
+            "wood",
+            "rock"
+        ],
+        "requires": {
+            "buildings": [
+                "forge"
+            ],
+            "resources": [
+                "wood",
+                "metal"
+            ]
+        },
+        "discovered": false
+    },
+    "smelter": {
+        "name": "smelter",
+        "cost": {
+            "rock": 180,
+            "stick": 50
+        },
+        "consumption": [
+            "rock",
+            "metal"
+        ],
+        "requires": {
+            "buildings": [
+                "stoneQuarry"
+            ],
+            "resources": [
+                "rock",
+                "wood"
+            ]
+        },
+        "discovered": false
+    },
+    "craftingChamber": {
+        "name": "craftingChamber",
+        "cost": {
+            "metal": 180,
+            "wood": 130
+        },
+        "consumption": [
+            "stick",
+            "metal"
+        ],
+        "requires": {
+            "buildings": [
+                "workshop"
+            ],
+            "resources": [
+                "metal",
+                "wood"
+            ]
+        },
+        "discovered": false
+    },
+    "watchTower": {
+        "name": "watchTower",
+        "cost": {
+            "wood": 180,
+            "rock": 80
+        },
+        "requires": {
+            "buildings": [
+                "stoneQuarry"
+            ],
+            "resources": [
+                "rock",
+                "wood"
+            ]
+        },
+        "discovered": false
+    },
+    "shelter": {
+        "name": "shelter",
+        "cost": {
+            "wood": 120,
+            "stick": 80
+        },
+        "consumption": [
+            "food",
+            "water",
+            "electricity"
+        ],
+        "requires": {
+            "buildings": [
+                "lumberHut"
+            ],
+            "resources": [
+                "wood",
+                "stick"
+            ]
+        },
+        "survivorCap": 2,
+        "discovered": false
+    },
+    "medicalCenter": {
+        "name": "medicalCenter",
+        "cost": {
+            "wood": 180,
+            "metal": 80
+        },
+        "consumption": [
+            "food",
+            "water",
+            "electricity"
+        ],
+        "requires": {
+            "buildings": [
+                "shelter"
+            ],
+            "resources": [
+                "metal",
+                "wood"
+            ]
+        },
+        "discovered": false
+    },
+    "commonRoom": {
+        "name": "commonRoom",
+        "cost": {
+            "wood": 130,
+            "food": 80
+        },
+        "consumption": [
+            "electricity"
+        ],
+        "requires": {
+            "buildings": [
+                "basicGarden"
+            ],
+            "resources": [
+                "food",
+                "water"
+            ]
+        },
+        "survivorCap": 2,
+        "discovered": false
+    },
+    "solarPanels": {
+        "name": "solarPanels",
+        "cost": {
+            "metal": 220
+        },
+        "production": {
+            "electricity": 1
+        },
+        "requires": {
+            "buildings": [
+                "forge"
+            ],
+            "resources": [
+                "metal"
+            ]
+        },
+        "discovered": false
+    },
+    "radioTower": {
+        "name": "radioTower",
+        "cost": {
+            "metal": 260,
+            "rock": 130
+        },
+        "consumption": [
+            "electricity"
+        ],
+        "requires": {
+            "buildings": [
+                "solarPanels"
+            ],
+            "resources": [
+                "metal",
+                "rock"
+            ]
+        },
+        "discovered": false
+    },
+    "sealedBunker": {
+        "name": "sealedBunker",
+        "cost": {
+            "metal": 450,
+            "rock": 280,
+            "wood": 280
+        },
+        "consumption": [
+            "food",
+            "water",
+            "electricity"
+        ],
+        "requires": {
+            "buildings": [
+                "radioTower",
+                "medicalCenter"
+            ],
+            "resources": [
+                "metal",
+                "rock",
+                "wood"
+            ]
+        },
+        "survivorCap": 4,
+        "discovered": false
+    }
+}

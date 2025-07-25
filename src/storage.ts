@@ -1,5 +1,5 @@
+import bManager from "./buildRegistry.js";
 import bSManager from "./buildState.js";
-import bManager from "./buildTable.js";
 import sManager from "./gameState.js";
 import lManager from "./lootTable.js";
 import render from "./render.js";
@@ -42,8 +42,8 @@ function clearGame() : void {
 };
 
 const resetGameData = () : void => {
-    const currentDatas = [sManager.gameStateInstance, bSManager.bStateInstance, lManager.lootTable, bManager.buildTable, sSManager.survivorStateInstance];
-    const initDatas = [sManager.initialGState, bSManager.initialBState, lManager.initialLTable, bManager.initialBTable, sSManager.initialSState];
+    const currentDatas = [sManager.gameStateInstance, bSManager.bStateInstance, lManager.lootTable, bManager.buildRegistry, sSManager.survivorStateInstance];
+    const initDatas = [sManager.initialGState, bSManager.initialBState, lManager.initialLTable, bManager.initialBuildRegistry, sSManager.initialSState];
     
     for (let i = 0; i < currentDatas.length; i++) {
         Object.assign(currentDatas[i], initDatas[i]);

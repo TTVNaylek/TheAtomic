@@ -1,5 +1,5 @@
+import bManager from "./buildRegistry.js";
 import {BuildKey} from "./buildState.js";
-import bManager from "./buildTable.js";
 import {ResourceKey} from "./gameState.js";
 import utils from "./utils.js";
 
@@ -37,9 +37,7 @@ function isLootUnlocked(arg: LootItem) : boolean {
         req => !lootTable.find(item => item.name === req)?.discovered
     );
 
-    const hasUndiscoveredBuilding = arg.requires?.buildings?.some(
-        req => !bManager.buildTable.find(item => item.name === req)?.discovered
-    );
+    const hasUndiscoveredBuilding = arg.requires?.buildings?.some(req => !bManager.buildRegistry[req].discovered);;
 
     return !hasUndiscoveredResource && !hasUndiscoveredBuilding;
 };

@@ -1,5 +1,5 @@
+import bManager from "./buildRegistry.js";
 import bSManager, {BuildKey} from "./buildState.js";
-import bManager from "./buildTable.js";
 import sManager, {ResourceKey} from "./gameState.js";
 import lManager from "./lootTable.js";
 
@@ -71,7 +71,7 @@ const renderResources = () : void => {
 
 const renderBuildings = () : void => {
     // Récupère la list des builds découverts
-    const discoveredBuilds = new Set(bManager.buildTable.filter(element => element.discovered).map(element => element.name));
+    const discoveredBuilds = new Set(Object.values(bManager.buildRegistry).filter(element => element.discovered).map(element => element.name));
 
     for (const build of Object.keys(bSManager.bStateInstance) as Array<BuildKey>) {
         if (/*!buildState[build].nbOfBuild ||*/

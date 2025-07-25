@@ -1,5 +1,5 @@
+import bManager from "./buildRegistry.js";
 import bsManager, {BuildKey} from "./buildState.js";
-import bManager from "./buildTable.js";
 import sManager, {ResourceKey} from "./gameState.js";
 import lManager, {LootItem} from "./lootTable.js";
 import render from "./render.js";
@@ -31,8 +31,8 @@ function consumeResourceBySurvivors () : void {
 
 // Gagner une resource selon le batiment et son niveau
 function gainResourceByBuilds () : void {
-    const prod = bsManager.getProduction();
-    const cap = bsManager.getCapacity();
+    const prod = bManager.getProduction();
+    const cap = bManager.getCapacity();
 
     for (const key in prod) {
         const typedKey = key as ResourceKey;
@@ -149,10 +149,9 @@ function searchItems() : void {
     bManager.checkBuildingRequire();
 }*/
 
-function buyBuilding(buildName: string) : void {
+function buyBuilding(buildName: BuildKey) : void {
     // Récupérer le nom du build et son prix (getBuildCost)
-    const build = buildName as BuildKey;
-    const bCost = bManager.getBuildCost(build);
+    const bCost = bManager.getBuildCost(buildName);
     let canBuy = true;
 
     // Vérifie si on peut acheter
@@ -169,7 +168,6 @@ function buyBuilding(buildName: string) : void {
 
     if (!canBuy) {
         render.renderLog("Not enough resources...");
-        console.log("CANT BUY");
         return;
     }
 
@@ -180,8 +178,8 @@ function buyBuilding(buildName: string) : void {
         sManager.gameStateInstance[typedKey] -= bCost[typedKey];
     }
     // Ajout du batiment acheté
-    bsManager.bStateInstance[build].nbOfBuild += 1;
-    render.renderLog("Built a new " + bsManager.bStateInstance[build]);
+    bsManager.bStateInstance[buildName].nbOfBuild += 1;
+    render.renderLog("Built a new " + bsManager.bStateInstance[buildName]);
 };
 
 export default {
