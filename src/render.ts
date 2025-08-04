@@ -31,14 +31,34 @@ const renderStates = () : void => {
     renderTabs();
     renderResources();
     renderBuildings();
+    renderCapacity();
+    renderSurvivorCap();
+};
 
-    const id = "survivors-cap";
-    const elementCap = document.getElementById(id);
+const renderSurvivorCap = () => {
+    const elementCap = document.getElementById("survivors-cap");
+    const survivorCap = bManager.getSurvivorCapacity();
     if (!elementCap) {
-        warnMissingElement(id);
+        warnMissingElement("survivors-cap");
         return;
     }
-    elementCap.textContent = "/" + bManager.getSurvivorCapacity();
+    elementCap.textContent = "/" + survivorCap;
+};
+
+const renderCapacity = () => {
+    for (const resource of Object.keys(sManager.gameStateInstance) as Array<ResourceKey>) {
+        const resourceCapacity = bManager.getCapacity()[resource];
+
+        if (!resourceCapacity) {
+            continue;
+        }
+        const elementCap = document.getElementById(resource + "-cap");
+        if (!elementCap) {
+            warnMissingElement(resource + "-cap");
+            return;
+        }
+        elementCap.textContent = "/" + resourceCapacity;
+    }
 };
 
 const renderTabs = () : void => {
@@ -57,15 +77,15 @@ const renderResources = () : void => {
     // Récupère la list des items découverts
     const discoveredItems = new Set(lManager.lootTable.filter(element => element.discovered).map(element => element.name));
     
-    for (const ressource of Object.keys(sManager.gameStateInstance) as Array<ResourceKey>) {
+    for (const resource of Object.keys(sManager.gameStateInstance) as Array<ResourceKey>) {
         if (/*!gameState[ressource] ||*/
-            !discoveredItems.has(ressource)) {
+            !discoveredItems.has(resource)) {
             // Hide element if not discovered (prevent from reset function)
-            const element = document.getElementById(ressource);
+            const element = document.getElementById(resource);
             if (element) element.style.display = "none";
             continue;
         }
-        updateDisplay(ressource, sManager.gameStateInstance[ressource]);
+        updateDisplay(resource, sManager.gameStateInstance[resource]);
     }
 };
 

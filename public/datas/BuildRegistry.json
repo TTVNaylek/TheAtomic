@@ -2,7 +2,7 @@
     "lumberHut": {
         "name": "lumberHut",
         "cost": {
-            "stick": 80
+            "stick": 50
         },
         "production": {
             "stick": 1,
@@ -12,6 +12,10 @@
             "resources": [
                 "stick"
             ]
+        },
+        "capacity": {
+            "stick": 100,
+            "wood": 50
         },
         "discovered": false
     },

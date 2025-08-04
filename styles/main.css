@@ -68,12 +68,12 @@ p{
     font-size: small;
 }
 
-#log, #content, #credits, #storage, #nav{
+.box{
     padding: 10px;
     border: 2px solid black;
 }
 
-#storage:before, #content:before, #log:before, #nav:before {
+.legend:before{
     background: white;
     content: attr(data-legend);
     position: absolute;

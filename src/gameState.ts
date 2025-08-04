@@ -11,11 +11,11 @@ export interface GameState {
     survivors: number,
 };
 
-export type ResourceKey = keyof GameState;
+export type ResourceKey = Exclude<keyof GameState, "survivors">;
 
 const gameStateInstance: GameState = {
-    food: 100,
-    water: 100,
+    food: 0,
+    water: 0,
 
     electricity: 0,
 

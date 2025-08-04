@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./styles/main.css">
     <link rel="stylesheet" href="./styles/camp.css">
+    <link rel="stylesheet" href="./styles/jobs.css">
     <title>The Atomic</title>
 </head>
 <body>
@@ -15,7 +16,7 @@
     But if you want to play seriously, close this tab or you will be spoiled !
     -->
     <div class="wrapper">
-        <div id="nav" data-legend="Tabs">
+        <div id="nav" class="box legend" data-legend="Tabs">
             <ul>
                 <li><a href="#" class="active" id="camp-nav">CAMP</a></li>
                 <li><a href="#" style="display: none;" id="jobs-nav">JOBS</a></li>
@@ -24,12 +25,12 @@
                 <li><a href="#" id="jobs-nav">TAB5</a></li>
             </ul>
         </div>
-        <div id="log" data-legend="Context">
+        <div id="log" class="box legend" data-legend="Context">
             <!--<div class="log-message">SAMPLE LOG</div>-->
         </div>
 
         <div class="tab-content active" id="camp">
-            <div id="content" data-legend="Adventure">
+            <div id="content" class="box legend" data-legend="Adventure">
             <div id="searchButton" class="button">SEARCH</div>
             
             <p id="shopTxt">Shop :</p>
@@ -65,23 +66,25 @@
                 <div id="" class="button">NULL</div>
             </div>
             </div>
-            <div data-legend="Storage" id="storage">
-                <div id="food" class="storageItems">FOOD: <span id="food-count">0</span></div>
-                <div id="water" class="storageItems">WATER: <span id="water-count">0</span></div>
-                <div id="electricity"  class="storageItems">ELECTRICITY: <span id="electricity-count">0</span></div>
-                <div id="survivors"  class="storageItems">SURVIVOR(S): <span id="survivors-count">0</span><span id="survivors-cap">/CAP</span></div>
-                <div id="stick"  class="storageItems">STICK(S): <span id="stick-count">0</span></div>
-                <div id="wood"  class="storageItems">WOOD: <span id="wood-count">0</span></div>
-                <div id="rock"  class="storageItems">ROCKS(S): <span id="rock-count">0</span></div>
-                <div id="metal"  class="storageItems">METAL: <span id="metal-count">0</span></div>
+            <div data-legend="Storage" id="storage" class="box legend">
+                <div id="food" class="storageItems">FOOD: <span id="food-count">0</span><span id="food-cap"></span></div>
+                <div id="water" class="storageItems">WATER: <span id="water-count">0</span><span id="water-cap"></span></div>
+                <div id="electricity"  class="storageItems">ELECTRICITY: <span id="electricity-count">0</span><span id="electricity-cap"></span></div>
+                <div id="survivors"  class="storageItems">SURVIVOR(S): <span id="survivors-count">0</span><span id="survivors-cap"></span></div>
+                <div id="stick"  class="storageItems">STICK(S): <span id="stick-count">0</span><span id="stick-cap"></span></div>
+                <div id="wood"  class="storageItems">WOOD: <span id="wood-count">0</span><span id="wood-cap"></span></div>
+                <div id="rock"  class="storageItems">ROCKS(S): <span id="rock-count">0</span><span id="rock-cap"></span></div>
+                <div id="metal"  class="storageItems">METAL: <span id="metal-count">0</span><span id="metal-cap"></span></div>
             </div>
         </div>
         
-        <diV class="tab-content" id="jobs">
+        <div class="tab-content" id="jobs">
+            <div class="box legend" id="assign-job" data-legend="Assign Job">
+                <p>TEXT DATA</p>
+            </div>
+        </div>
 
-        </diV>
-
-        <div id="credits">
+        <div id="credits" class="box">
             <div style="cursor: pointer;" id="creditsButton">CREDITS</div>
             <div style="cursor: pointer;" id="saveButton">SAVE</div>
             <div style="cursor: pointer;" id="loadButton">LOAD</div>

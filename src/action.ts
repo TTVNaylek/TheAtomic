@@ -6,45 +6,75 @@ import render from "./render.js";
 import sSManager from "./survivorsState.js";
 import utils from "./utils.js";
 
+const gState = sManager.gameStateInstance;
+
 // Consomme les ressources food et water en fonction des survivants
-function consumeResourceBySurvivors () : void {
-    const baseConsumption = 0.25;
+/*function consumeResourceBySurvivors () : void {
+    const baseConsumption = 0.125;
     const keys = sManager.consommable;
     for (let i = 0; i < keys.length; i++) {
-        if (sManager.gameStateInstance[keys[i]] <= 0) {
-            sManager.gameStateInstance[keys[i]] = 0;
-            continue;
+        
+        if (gState[keys[i]] <= 0) {
+            gState[keys[i]] = 0;
         }
 
         // Plus tard créer une fonction qui check tous les besoins des survivants pour les remove si besoin
-        const consNeeded = baseConsumption * (sManager.gameStateInstance.survivors + 1);
-
+        const consNeeded = baseConsumption * (gState.survivors);
+        
         // Quand les deux ressources manquent = mort d'un survivant
-        if (sManager.gameStateInstance["food"] < consNeeded && sManager.gameStateInstance["water"] < consNeeded) {
+        if (gState["food"] < consNeeded && gState["water"] < consNeeded) {
             sSManager.removeSurvivor();
             continue;
         }
 
-        sManager.gameStateInstance[keys[i]] -= consNeeded;
+        gState[keys[i]] -= consNeeded;
     }
-};
+};*/
+
+function consumeResourceBySurvivors() : void {
+    const baseConsumption = 0.125;
+    const keys = sManager.consommable;
+
+    for (let i = 0; i < keys.length; i++) {
+        const key = keys[i];
+        const consNeeded = baseConsumption * gState.survivors;
+
+        // Vérifie si les deux ressources sont insuffisantes → mort
+        if (gState["food"] < consNeeded && gState["water"] < consNeeded) {
+            sSManager.removeSurvivor();
+            continue;
+        }
+
+        // Consomme la ressource sans descendre en dessous de 0
+        gState[key] = Math.max(0, gState[key] - consNeeded);
+    }
+}
 
 // Gagner une resource selon le batiment et son niveau
 function gainResourceByBuilds () : void {
     const prod = bManager.getProduction();
-    const cap = bManager.getCapacity();
 
     for (const key in prod) {
         const typedKey = key as ResourceKey;
 
-        // Ne produit pas si la capacité est atteinte
-        /* if (!cap[typedKey] || gameState[typedKey] >= cap[typedKey]) {
-            continue;
-        }*/
-
         if (!prod[typedKey]) continue;
-        sManager.gameStateInstance[typedKey] = (sManager.gameStateInstance[typedKey] ?? 0) + prod[typedKey];
+
+        // Retourne la capacité à produire
+        gState[typedKey] += checkAndClampResource(typedKey, prod[typedKey]);
     }
+};
+
+function checkAndClampResource (resource: ResourceKey, toAdd: number) : number {
+    const maxResourceCap = bManager.getCapacity()[resource];
+    const currentResourceCap = gState[resource];
+
+    if (!maxResourceCap) return 0;
+
+    if (currentResourceCap + toAdd > maxResourceCap) {
+        return Math.max(1, maxResourceCap - currentResourceCap);
+    }
+
+    return toAdd;
 };
 
 const handleLootDrop = (arg: LootItem) : boolean => {
@@ -67,8 +97,6 @@ const renderLoot = (arg: LootItem, qty: number) : void => {
 
 // Rechercher 1 item
 function searchItems() : void {
-    const gState = sManager.gameStateInstance;
-
     // Débloquer un seul item par recherche
     const potentialItem = lManager.lootTable[utils.randomValue(0, lManager.lootTable.length - 1)];
 
@@ -79,18 +107,22 @@ function searchItems() : void {
         return;
     }
 
-
     if (!handleLootDrop(potentialItem)) return;
     
-
     let quantity = potentialItem.quantity;
     if (Array.isArray(quantity)) {
         quantity = utils.randomValue(quantity[0], quantity[1]);
     }
+    const clampedQty = checkAndClampResource(potentialItem.name, quantity);
 
-    gState[potentialItem.name] += quantity;
+    if (clampedQty === 0) {
+        searchItems();
+        return;
+    }
+
+    gState[potentialItem.name] += clampedQty;
         
-    renderLoot(potentialItem, quantity);
+    renderLoot(potentialItem, clampedQty);
 
     // Passer à true le discovered de l'item
     const item = lManager.lootTable.find(i => i.name === potentialItem.name);
@@ -160,7 +192,7 @@ function buyBuilding(buildName: BuildKey) : void {
         if (!bCost[typedKey]) break;
     
         // Si ressources < prix
-        if (sManager.gameStateInstance[typedKey] < bCost[typedKey]) {
+        if (gState[typedKey] < bCost[typedKey]) {
             canBuy = false;
             break;
         }
@@ -175,12 +207,13 @@ function buyBuilding(buildName: BuildKey) : void {
     for (const key in bCost) {
         const typedKey = key as ResourceKey;
         if (!bCost[typedKey]) break;
-        sManager.gameStateInstance[typedKey] -= bCost[typedKey];
+        gState[typedKey] -= bCost[typedKey];
     }
     // Ajout du batiment acheté
     bsManager.bStateInstance[buildName].nbOfBuild += 1;
     render.renderLog("Built a new " + bsManager.bStateInstance[buildName]);
 };
+
 
 export default {
     consumeResourceBySurvivors,

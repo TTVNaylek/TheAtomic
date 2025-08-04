@@ -4,6 +4,8 @@ import {BuildKey} from "./buildState.js";
 import render from "./render.js";
 import store from "./storage.js";
 
+store.loadGame();
+
 // Compteur pour la save
 let i = 0;
 
@@ -50,9 +52,3 @@ document.addEventListener('click', (event) => {
             break;
     }
 });
-
-// Auto load save while page load
-window.onload = function() {
-    console.log("GAME AUTO LOADED");
-    store.loadGame();
-};

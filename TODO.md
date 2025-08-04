@@ -1,3 +1,6 @@
+# DON'T REFER TO THAT, I DON'T USE IT ANYMORE.
+# NE VOUS REFERZ PAS A CELA JE NE L'UTILISE PLUS
+
 # ✅ TODO
 
 ## 🔧 Tasks / À faire

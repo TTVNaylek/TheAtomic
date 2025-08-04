@@ -2,7 +2,7 @@ import utils from "./utils.js";
 
 type BuildInstance = {
     nbOfBuild: number;
-    assignedSurvivors?: number;
+    assignedSurvivors: number;
 };
 
 interface BuildState {
@@ -31,8 +31,6 @@ interface BuildState {
 type BuildKey = keyof BuildState;
 
 const bStateInstance: BuildState = await utils.getJsonData<BuildState>("./public/datas/BuildState.json");
-
-// AJOUTER UNE CAPACITE AU BATIMENTS
 
 const initialBState: BuildState = structuredClone(bStateInstance);
 

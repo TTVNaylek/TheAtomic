@@ -33,11 +33,12 @@ const lootTable: LootItem[] = await utils.getJsonData<LootItem[]>("./public/data
 const initialLTable: LootItem[] = structuredClone(lootTable);
 
 function isLootUnlocked(arg: LootItem) : boolean {
+
     const hasUndiscoveredResource = arg.requires?.resources?.some(
         req => !lootTable.find(item => item.name === req)?.discovered
     );
 
-    const hasUndiscoveredBuilding = arg.requires?.buildings?.some(req => !bManager.buildRegistry[req].discovered);;
+    const hasUndiscoveredBuilding = arg.requires?.buildings?.some(req => !bManager.buildRegistry[req].discovered);
 
     return !hasUndiscoveredResource && !hasUndiscoveredBuilding;
 };
